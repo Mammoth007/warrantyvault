@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>WarrantyVault — PC Parts Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+
+
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08111F;--surface:#0F1C30;--card:#132238;--border:#1E3352;
+  --blue:#3B82F6;--blue-dim:#1D4ED8;--teal:#22D3EE;
+  --amber:#F59E0B;--red:#EF4444;--green:#22C55E;
+  --text:#E2EAF4;--muted:#617898;--purple:#A78BFA;
+  --mono:'Share Tech Mono',monospace;
+  --sans:'Space Grotesk',sans-serif;
+  --body:'Inter',sans-serif;
+}
+html{font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden}
+
+/* ── SCREENS ── */
+.screen{display:none;min-height:100vh}
+.screen.active{display:flex;flex-direction:column}
+
+/* ══ GATE ══ */
+#screen-gate{align-items:center;justify-content:center;background:radial-gradient(ellipse at 60% 40%,#0D2040 0%,#08111F 70%)}
+.gate-wrap{text-align:center;max-width:520px;width:90%;padding:2rem 0}
+.gate-logo{display:flex;align-items:center;justify-content:center;gap:.8rem;font-family:var(--sans);font-size:1.8rem;font-weight:700;margin-bottom:.4rem}
+.gate-logo-icon{width:52px;height:52px;background:linear-gradient(135deg,var(--blue),var(--teal));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem}
+.gate-logo span{color:var(--teal)}
+.gate-tagline{font-size:.85rem;color:var(--muted);margin-bottom:2.75rem}
+.gate-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.gate-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:2rem 1.5rem;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s;user-select:none;text-align:left}
+.gate-card:hover{border-color:var(--blue);box-shadow:0 8px 32px rgba(59,130,246,.18);transform:translateY(-3px)}
+.gate-card.cust:hover{border-color:var(--teal);box-shadow:0 8px 32px rgba(34,211,238,.14)}
+.gate-card-icon{font-size:2.4rem;margin-bottom:1rem}
+.gate-card h2{font-family:var(--sans);font-size:1rem;font-weight:700;margin-bottom:.45rem}
+.gate-card p{font-size:.78rem;color:var(--muted);line-height:1.55}
+
+/* ══ SHARED FORM ══ */
+.field{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.85rem}
+.field label{font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+.field input,.field select,.field textarea{background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:var(--body);font-size:.9rem;padding:.65rem .9rem;outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+.field select option{background:var(--card)}
+.btn-primary{background:linear-gradient(135deg,var(--blue),var(--blue-dim));border:none;border-radius:10px;color:#fff;cursor:pointer;font-family:var(--sans);font-size:.93rem;font-weight:600;padding:.8rem;width:100%;margin-top:.25rem;transition:opacity .2s,transform .1s;letter-spacing:.01em}
+.btn-primary:hover{opacity:.88}
+.btn-primary:active{transform:scale(.98)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed}
+.btn-ghost{background:none;border:1px solid var(--border);border-radius:10px;color:var(--muted);cursor:pointer;font-family:var(--sans);font-size:.85rem;font-weight:500;padding:.65rem;width:100%;margin-top:.5rem;transition:all .2s}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+.err-box{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:8px;color:var(--red);font-size:.8rem;padding:.55rem .8rem;margin-top:.7rem;display:none}
+.ok-box{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:8px;color:var(--green);font-size:.8rem;padding:.55rem .8rem;margin-top:.7rem;display:none}
+.spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem}
+.spinner.dark{border-color:rgba(0,0,0,.2);border-top-color:#000}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ══ LOGIN ══ */
+#screen-login{align-items:center;justify-content:center;flex-direction:column;gap:1rem;background:radial-gradient(ellipse at 40% 60%,#0D2040 0%,#08111F 70%)}
+.login-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.5rem 2.25rem;width:90%;max-width:390px}
+.login-box h2{font-family:var(--sans);font-size:1.2rem;font-weight:700;margin-bottom:.3rem}
+.login-box .sub{font-size:.82rem;color:var(--muted);margin-bottom:1.75rem}
+.changepw-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:390px;width:90%}
+.changepw-wrap h3{font-family:var(--sans);font-size:1rem;font-weight:700;margin-bottom:.3rem}
+.changepw-wrap .sub{font-size:.8rem;color:var(--muted);margin-bottom:1.25rem}
+.change-link{text-align:center;font-size:.78rem;color:var(--muted)}
+.change-link a{color:var(--blue);cursor:pointer;text-decoration:none}
+.change-link a:hover{text-decoration:underline}
+
+/* ══ ADMIN HEADER ══ */
+header.admin-header{display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:200}
+.header-left{display:flex;align-items:center;gap:.85rem}
+.company-logo-img{height:36px;width:auto;object-fit:contain;border-radius:6px}
+.logo-text{display:flex;align-items:center;gap:.6rem;font-family:var(--sans);font-weight:700;font-size:1.15rem}
+.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--teal));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.logo-text span{color:var(--teal)}
+.header-right{display:flex;align-items:center;gap:.9rem}
+#live-clock{font-family:var(--mono);font-size:.88rem;color:var(--muted)}
+.btn-logout{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);cursor:pointer;font-size:.76rem;font-family:var(--sans);padding:.32rem .8rem;transition:all .2s}
+.btn-logout:hover{border-color:var(--red);color:var(--red)}
+
+/* ══ ADMIN LAYOUT ══ */
+.admin-body{display:grid;grid-template-columns:310px 1fr;flex:1;overflow:hidden;min-height:0}
+.sidebar{border-right:1px solid var(--border);padding:1.5rem 1.4rem;background:var(--surface);display:flex;flex-direction:column;gap:.85rem;overflow-y:auto;height:calc(100vh - 61px);position:sticky;top:61px}
+.sidebar-title{font-family:var(--sans);font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-bottom:.7rem;border-bottom:1px solid var(--border)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:auto;padding-top:1.1rem;border-top:1px solid var(--border)}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.7rem;text-align:center}
+.stat-box .num{font-family:var(--sans);font-size:1.45rem;font-weight:700;line-height:1}
+.stat-box .lbl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.22rem}
+.s-total .num{color:var(--blue)}.s-active .num{color:var(--green)}.s-warning .num{color:var(--amber)}.s-expired .num{color:var(--red)}
+
+/* ══ MAIN AREA ══ */
+.main{padding:1.5rem 2rem;overflow-y:auto;flex:1}
+
+/* ── Category tabs ── */
+.cat-tabs-wrap{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem;flex-wrap:wrap;gap:.75rem}
+.cat-tabs{display:flex;gap:.4rem;flex-wrap:wrap}
+.cat-tab{display:flex;align-items:center;gap:.4rem;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--muted);cursor:pointer;font-size:.78rem;font-weight:500;font-family:var(--sans);padding:.38rem .85rem;transition:all .15s}
+.cat-tab:hover{border-color:var(--blue);color:var(--blue);background:rgba(59,130,246,.07)}
+.cat-tab.active{border-color:var(--blue);color:var(--blue);background:rgba(59,130,246,.12);font-weight:600}
+.cat-tab .badge{background:rgba(59,130,246,.18);border-radius:20px;font-size:.65rem;font-weight:700;padding:.1rem .45rem;min-width:18px;text-align:center}
+.cat-tab.active .badge{background:rgba(59,130,246,.3)}
+
+/* category color overrides */
+.cat-tab[data-cat="GPU"].active{border-color:var(--purple);color:var(--purple);background:rgba(167,139,250,.1)}
+.cat-tab[data-cat="GPU"].active .badge{background:rgba(167,139,250,.25)}
+.cat-tab[data-cat="CPU"].active{border-color:var(--teal);color:var(--teal);background:rgba(34,211,238,.08)}
+.cat-tab[data-cat="CPU"].active .badge{background:rgba(34,211,238,.2)}
+.cat-tab[data-cat="RAM"].active{border-color:#34D399;color:#34D399;background:rgba(52,211,153,.08)}
+.cat-tab[data-cat="RAM"].active .badge{background:rgba(52,211,153,.2)}
+.cat-tab[data-cat="Motherboard"].active{border-color:var(--amber);color:var(--amber);background:rgba(245,158,11,.08)}
+.cat-tab[data-cat="Motherboard"].active .badge{background:rgba(245,158,11,.2)}
+.cat-tab[data-cat="Others"].active{border-color:var(--muted);color:var(--text);background:rgba(97,120,152,.1)}
+
+.filter-tabs{display:flex;gap:.35rem}
+.filter-tab{background:var(--card);border:1px solid var(--border);border-radius:7px;color:var(--muted);cursor:pointer;font-size:.73rem;font-weight:500;padding:.33rem .75rem;transition:all .15s}
+.filter-tab.active,.filter-tab:hover{border-color:var(--blue);color:var(--blue);background:rgba(59,130,246,.08)}
+
+/* ══ WARRANTY CARDS ══ */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.1rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .3s,box-shadow .3s;display:flex;flex-direction:column}
+.card::before{content:'';display:block;height:3px;background:linear-gradient(90deg,var(--blue),var(--teal))}
+.card.warning::before{background:linear-gradient(90deg,var(--amber),#FCD34D)}
+.card.expired::before{background:var(--red)}
+.card.expired{border-color:rgba(239,68,68,.25)}
+.card:hover:not(.expired){border-color:rgba(59,130,246,.35);box-shadow:0 4px 22px rgba(59,130,246,.1)}
+
+/* product image */
+.card-img-wrap{position:relative;height:150px;background:#070F1C;overflow:hidden;cursor:default}
+.card-img-wrap.admin-img{cursor:pointer}
+.card-img{width:100%;height:100%;object-fit:contain;padding:.75rem;transition:opacity .2s}
+.card-img-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;color:var(--border)}
+.card-img-placeholder span{font-size:2rem}
+.card-img-placeholder p{font-size:.68rem;color:var(--muted)}
+.img-edit-overlay{position:absolute;inset:0;background:rgba(10,20,40,.75);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;gap:.5rem;flex-direction:column}
+.card-img-wrap.admin-img:hover .img-edit-overlay{opacity:1}
+.img-edit-overlay span{font-size:.75rem;color:#fff;font-family:var(--sans);font-weight:600}
+.img-edit-overlay .edit-icon{font-size:1.6rem}
+
+.card-body{padding:1.1rem 1.2rem 1rem;display:flex;flex-direction:column;flex:1}
+.card-top-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.65rem}
+.part-badge{background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);border-radius:6px;color:var(--blue);font-family:var(--sans);font-size:.65rem;font-weight:700;letter-spacing:.08em;padding:.2rem .52rem;text-transform:uppercase}
+.card.warning .part-badge{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.3);color:var(--amber)}
+.card.expired .part-badge{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.2);color:var(--red)}
+.btn-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.92rem;padding:.18rem .32rem;border-radius:5px;transition:all .2s}
+.btn-del:hover{color:var(--red);background:rgba(239,68,68,.1)}
+.customer-name{font-family:var(--sans);font-size:.97rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.12rem}
+.customer-uid{font-size:.7rem;color:var(--blue);font-family:var(--mono);margin-bottom:.08rem}
+.order-id-line{font-size:.7rem;color:var(--muted);margin-bottom:.08rem}
+.part-name{font-size:.78rem;color:var(--teal);font-weight:500;margin-bottom:.8rem}
+.card.expired .part-name{color:var(--muted)}
+.timer-block{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:.75rem .9rem;margin-bottom:.7rem;text-align:center}
+.timer-label{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.38rem}
+.timer-digits{font-family:var(--mono);font-size:1.75rem;letter-spacing:.06em;color:var(--teal);line-height:1;transition:color .5s}
+.timer-digits.warning{color:var(--amber)}
+.timer-digits.expired{color:var(--red);animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.48}}
+.timer-sub{font-size:.62rem;color:var(--muted);margin-top:.32rem;font-family:var(--mono)}
+.timer-sub b{color:var(--text);font-weight:400;opacity:.75}
+.progress-wrap{background:var(--bg);border-radius:4px;height:3px;margin-bottom:.65rem;overflow:hidden}
+.progress-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width 1s linear,background .5s}
+.progress-bar.warning{background:linear-gradient(90deg,var(--amber),#FCD34D)}
+.progress-bar.expired{background:var(--red)}
+.card-footer{display:flex;justify-content:space-between;font-size:.68rem;color:var(--muted);margin-bottom:.65rem}
+.card-footer div{display:flex;flex-direction:column;gap:.08rem}
+.card-footer strong{color:var(--text);font-size:.73rem;font-weight:500}
+.share-row{display:flex;align-items:center;gap:.5rem;padding-top:.65rem;border-top:1px solid var(--border);margin-top:auto}
+.share-id{flex:1;font-family:var(--mono);font-size:.68rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-copy{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:6px;color:var(--blue);cursor:pointer;font-size:.68rem;font-family:var(--sans);font-weight:600;padding:.22rem .55rem;white-space:nowrap;transition:all .2s}
+.btn-copy:hover{background:rgba(59,130,246,.22)}
+
+.empty{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--muted)}
+.empty-icon{font-size:2.5rem;margin-bottom:.75rem;opacity:.3}
+.empty p{font-size:.87rem}
+.loading-state{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--muted);font-size:.87rem}
+
+/* ══ CUSTOMER SCREEN ══ */
+#screen-customer{align-items:center;justify-content:flex-start;background:radial-gradient(ellipse at 50% 30%,#0D2040 0%,#08111F 70%);padding:2.5rem 1rem 4rem}
+.cust-header{text-align:center;margin-bottom:2rem}
+.cust-logo{display:flex;align-items:center;justify-content:center;gap:.7rem;font-family:var(--sans);font-size:1.4rem;font-weight:700;margin-bottom:.35rem}
+.cust-logo span{color:var(--teal)}
+.cust-logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--blue),var(--teal));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.25rem}
+.cust-logo-img{height:42px;width:auto;object-fit:contain;border-radius:8px}
+.cust-tagline{font-size:.82rem;color:var(--muted)}
+.lookup-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:2rem 1.85rem;width:100%;max-width:480px;margin-bottom:1.6rem}
+.lookup-box h2{font-family:var(--sans);font-size:1.05rem;font-weight:700;margin-bottom:.3rem}
+.lookup-box p{font-size:.8rem;color:var(--muted);margin-bottom:1.4rem}
+.lookup-row{display:flex;gap:.6rem}
+.lookup-row input{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:var(--mono);font-size:.9rem;padding:.65rem .9rem;outline:none;transition:border-color .2s,box-shadow .2s;letter-spacing:.05em}
+.lookup-row input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(34,211,238,.12)}
+.btn-lookup{background:linear-gradient(135deg,var(--teal),#0891B2);border:none;border-radius:9px;color:#071525;cursor:pointer;font-family:var(--sans);font-size:.9rem;font-weight:700;padding:.65rem 1.2rem;white-space:nowrap;transition:opacity .2s}
+.btn-lookup:hover{opacity:.85}
+.btn-lookup:disabled{opacity:.5;cursor:not-allowed}
+.cust-err{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:8px;color:var(--red);font-size:.8rem;padding:.55rem .8rem;margin-top:.85rem;display:none;text-align:center}
+.cust-results{width:100%;max-width:480px;display:none;flex-direction:column;gap:1.1rem}
+.cust-section-title{font-family:var(--sans);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:.5rem 0 .3rem}
+
+/* customer card */
+.cust-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.cust-card-img{height:160px;background:#070F1C;overflow:hidden}
+.cust-card-img img{width:100%;height:100%;object-fit:contain;padding:.75rem}
+.cust-card-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--border);font-size:2.5rem}
+.cust-card-top{background:linear-gradient(135deg,#0F2040,#091828);padding:1.25rem 1.6rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between}
+.cust-part-badge{display:inline-block;border-radius:7px;font-family:var(--sans);font-size:.7rem;font-weight:700;letter-spacing:.08em;padding:.28rem .65rem;text-transform:uppercase;margin-bottom:.6rem;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);color:var(--blue)}
+.cust-part-badge.warning{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.3);color:var(--amber)}
+.cust-part-badge.expired{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.25);color:var(--red)}
+.cust-name{font-family:var(--sans);font-size:1.05rem;font-weight:700}
+.cust-order-line{font-size:.72rem;color:var(--muted);margin-top:.12rem}
+.cust-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.cust-dot.active{background:var(--green);box-shadow:0 0 8px var(--green)}
+.cust-dot.warning{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+.cust-dot.expired{background:var(--red)}
+.cust-card-body{padding:1.35rem 1.6rem}
+.cust-model{font-size:.83rem;color:var(--teal);font-weight:500;margin-bottom:1rem}
+.cust-card.expired .cust-model{color:var(--muted)}
+.cust-tlabel{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;text-align:center;margin-bottom:.42rem}
+.cust-timer{font-family:var(--mono);font-size:2.75rem;letter-spacing:.06em;text-align:center;color:var(--teal);line-height:1;margin-bottom:.42rem}
+.cust-timer.warning{color:var(--amber)}
+.cust-timer.expired{color:var(--red);animation:blink 1.6s ease-in-out infinite}
+.cust-tsub{text-align:center;font-size:.68rem;color:var(--muted);margin-bottom:1.1rem;font-family:var(--mono)}
+.cust-tsub b{color:var(--text);font-weight:400;opacity:.75}
+.cust-pbar-wrap{background:var(--bg);border-radius:5px;height:5px;margin-bottom:1.35rem;overflow:hidden}
+.cust-pbar{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width 1s linear}
+.cust-pbar.warning{background:linear-gradient(90deg,var(--amber),#FCD34D)}
+.cust-pbar.expired{background:var(--red)}
+.cust-meta{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+.cust-meta-item{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:.7rem .85rem}
+.cust-meta-item .lbl{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.22rem}
+.cust-meta-item .val{font-size:.83rem;font-weight:500;font-family:var(--sans)}
+
+.back-link{text-align:center;margin-top:.65rem;font-size:.77rem;color:var(--muted)}
+.back-link a{color:var(--blue);cursor:pointer;text-decoration:none}
+.back-link a:hover{text-decoration:underline}
+.home-link{margin-top:1.5rem;font-size:.75rem;color:var(--muted);text-align:center}
+.home-link a{color:var(--blue);cursor:pointer;text-decoration:none}
+.home-link a:hover{text-decoration:underline}
+
+/* ══ MODALS ══ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:500;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.show{opacity:1;pointer-events:all}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:380px;width:92%;text-align:center}
+.modal h3{font-family:var(--sans);font-size:1.05rem;font-weight:700;margin-bottom:.5rem}
+.modal p{font-size:.82rem;color:var(--muted);margin-bottom:1.5rem}
+.modal-btns{display:flex;gap:.75rem;justify-content:center}
+.modal-btns button{border:none;border-radius:8px;cursor:pointer;font-family:var(--sans);font-size:.88rem;font-weight:600;padding:.6rem 1.4rem;transition:opacity .2s}
+.modal-btns button:hover{opacity:.8}
+.btn-cancel{background:var(--border);color:var(--text)}
+.btn-confirm-del{background:var(--red);color:#fff}
+
+/* image upload modal */
+.img-modal{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:440px;width:92%}
+.img-modal h3{font-family:var(--sans);font-size:1rem;font-weight:700;margin-bottom:.3rem}
+.img-modal p{font-size:.8rem;color:var(--muted);margin-bottom:1.25rem}
+.img-preview-wrap{border:2px dashed var(--border);border-radius:10px;min-height:160px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;overflow:hidden;background:var(--bg);cursor:pointer;transition:border-color .2s}
+.img-preview-wrap:hover{border-color:var(--blue)}
+.img-preview-wrap img{max-width:100%;max-height:200px;object-fit:contain;padding:.5rem}
+.img-preview-ph{text-align:center;color:var(--muted);padding:1.5rem}
+.img-preview-ph span{font-size:2.5rem;display:block;margin-bottom:.5rem}
+.img-preview-ph p{font-size:.78rem}
+.img-modal-btns{display:flex;gap:.65rem;margin-top:.25rem}
+.btn-upload-img{flex:1;background:linear-gradient(135deg,var(--blue),var(--blue-dim));border:none;border-radius:9px;color:#fff;cursor:pointer;font-family:var(--sans);font-size:.88rem;font-weight:600;padding:.7rem;transition:opacity .2s}
+.btn-upload-img:hover{opacity:.88}
+.btn-remove-img{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:9px;color:var(--red);cursor:pointer;font-family:var(--sans);font-size:.88rem;font-weight:600;padding:.7rem .9rem;transition:all .2s}
+.btn-remove-img:hover{background:rgba(239,68,68,.2)}
+.btn-cancel-img{background:var(--border);border:none;border-radius:9px;color:var(--text);cursor:pointer;font-family:var(--sans);font-size:.88rem;font-weight:600;padding:.7rem .9rem}
+
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--green);color:#fff;font-family:var(--sans);font-size:.82rem;font-weight:600;padding:.65rem 1.1rem;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:all .25s;z-index:1000;pointer-events:none;max-width:300px}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.err{background:var(--red)}
+.toast.info{background:var(--blue)}
+
+@media(max-width:900px){
+  .admin-body{grid-template-columns:1fr}
+  .sidebar{height:auto;position:static;border-right:none;border-bottom:1px solid var(--border)}
+  header.admin-header{padding:.8rem 1.2rem}
+  .main{padding:1.2rem}
+  .gate-cards{grid-template-columns:1fr}
+  .cat-tabs-wrap{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ GATE ════════ -->
+<div class="screen active" id="screen-gate">
+  <div class="gate-wrap">
+    <div class="gate-logo">
+      <div class="gate-logo-icon">🛡</div>
+      Warranty<span>Vault</span>
+    </div>
+    <div class="gate-tagline">PC Parts Global Warranty Tracking System</div>
+    <div class="gate-cards">
+      <div class="gate-card" onclick="goTo('screen-login')">
+        <div class="gate-card-icon">🔐</div>
+        <h2>Admin Portal</h2>
+        <p>Register warranties, manage customer records, upload product images, and view the full dashboard.</p>
+      </div>
+      <div class="gate-card cust" onclick="goTo('screen-customer')">
+        <div class="gate-card-icon">🔍</div>
+        <h2>Check My Warranty</h2>
+        <p>Enter your Customer ID to see all your warranties and live countdowns.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ LOGIN ════════ -->
+<div class="screen" id="screen-login">
+  <div class="login-box">
+    <h2>Admin Login</h2>
+    <div class="sub">Credentials are required to access the dashboard.</div>
+    <div class="field"><label>Username</label><input id="li-user" type="text" placeholder="admin" autocomplete="username"/></div>
+    <div class="field"><label>Password</label><input id="li-pass" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="btn-primary" id="li-btn" onclick="doLogin()">Sign In</button>
+    <button class="btn-ghost" onclick="goTo('screen-gate')">← Back to Home</button>
+    <div class="err-box" id="li-err">Incorrect username or password.</div>
+  </div>
+  <div class="change-link"><a onclick="toggleChangePw()">Change admin password</a></div>
+  <div class="changepw-wrap" id="changepw-box" style="display:none">
+    <h3>Change Password</h3>
+    <div class="sub">You must know the current password to set a new one. The new password is saved to the database instantly.</div>
+    <div class="field"><label>Current Password</label><input id="cp-old" type="password" placeholder="current password"/></div>
+    <div class="field"><label>New Password</label><input id="cp-new" type="password" placeholder="min 6 characters"/></div>
+    <div class="field"><label>Confirm New Password</label><input id="cp-con" type="password" placeholder="repeat new password"/></div>
+    <button class="btn-primary" id="cp-btn" onclick="doChangePw()">Update Password</button>
+    <div class="err-box" id="cp-err"></div>
+    <div class="ok-box" id="cp-ok">Password updated and saved to database!</div>
+  </div>
+</div>
+
+<!-- ════════ ADMIN DASHBOARD ════════ -->
+<div class="screen" id="screen-admin">
+  <header class="admin-header">
+    <div class="header-left">
+      <!-- COMPANY LOGO: replace src with your logo URL, or remove img tag to show text only -->
+      <img id="company-logo-img" class="company-logo-img" src="" alt="" style="display:none" onerror="this.style.display='none'"/>
+      <div class="logo-text">
+        <div class="logo-icon">🛡</div>
+        Warranty<span>Vault</span>
+        <span style="color:var(--muted);font-size:.65rem;font-weight:400;margin-left:.15rem">Admin</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <span id="live-clock"></span>
+      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="admin-body">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-title">➕ Register New Warranty</div>
+
+      <div class="field">
+        <label>Customer Name</label>
+        <input id="f-name" type="text" placeholder="e.g. Alex Johnson"/>
+      </div>
+      <div class="field">
+        <label>Customer ID <span style="color:var(--blue);font-size:.62rem;text-transform:none">(unique per customer)</span></label>
+        <input id="f-uid" type="text" placeholder="e.g. CUST-0042" style="font-family:var(--mono);letter-spacing:.05em"/>
+      </div>
+      <div class="field">
+        <label>Order ID</label>
+        <input id="f-order" type="text" placeholder="e.g. ORD-20240627"/>
+      </div>
+      <div class="field">
+        <label>PC Part Type</label>
+        <select id="f-part">
+          <option value="">— Select —</option>
+          <option>GPU</option>
+          <option>CPU</option>
+          <option>RAM</option>
+          <option>Motherboard</option>
+          <option>SSD</option>
+          <option>HDD</option>
+          <option>PSU</option>
+          <option>CPU Cooler</option>
+          <option>PC Case</option>
+          <option>Others</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Product / Model Name</label>
+        <input id="f-model" type="text" placeholder="e.g. RTX 4070 Ti SUPER"/>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Purchase Date</label>
+          <input id="f-date" type="date"/>
+        </div>
+        <div class="field">
+          <label>Warranty</label>
+          <select id="f-years">
+            <option value="1">1 Year</option>
+            <option value="2">2 Years</option>
+            <option value="3" selected>3 Years</option>
+            <option value="5">5 Years</option>
+            <option value="10">10 Years</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Customer Email <span style="color:var(--muted);font-size:.62rem;text-transform:none">(optional)</span></label>
+        <input id="f-email" type="email" placeholder="customer@email.com"/>
+      </div>
+
+      <button class="btn-primary" id="add-btn" onclick="addWarranty()">Register Warranty</button>
+
+      <div class="stats-grid">
+        <div class="stat-box s-total"><div class="num" id="s-total">—</div><div class="lbl">Total</div></div>
+        <div class="stat-box s-active"><div class="num" id="s-active">—</div><div class="lbl">Active</div></div>
+        <div class="stat-box s-warning"><div class="num" id="s-warning">—</div><div class="lbl">Expiring</div></div>
+        <div class="stat-box s-expired"><div class="num" id="s-expired">—</div><div class="lbl">Expired</div></div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="cat-tabs-wrap">
+        <div class="cat-tabs" id="cat-tabs">
+          <button class="cat-tab active" data-cat="All" onclick="setCat('All',this)">All <span class="badge" id="cnt-All">0</span></button>
+          <button class="cat-tab" data-cat="GPU" onclick="setCat('GPU',this)">🎮 GPU <span class="badge" id="cnt-GPU">0</span></button>
+          <button class="cat-tab" data-cat="CPU" onclick="setCat('CPU',this)">🧠 CPU <span class="badge" id="cnt-CPU">0</span></button>
+          <button class="cat-tab" data-cat="RAM" onclick="setCat('RAM',this)">💾 RAM <span class="badge" id="cnt-RAM">0</span></button>
+          <button class="cat-tab" data-cat="Motherboard" onclick="setCat('Motherboard',this)">🔌 Motherboard <span class="badge" id="cnt-Motherboard">0</span></button>
+          <button class="cat-tab" data-cat="Others" onclick="setCat('Others',this)">📦 Others <span class="badge" id="cnt-Others">0</span></button>
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="setFilter('all',this)">All</button>
+          <button class="filter-tab" onclick="setFilter('active',this)">Active</button>
+          <button class="filter-tab" onclick="setFilter('warning',this)">Expiring</button>
+          <button class="filter-tab" onclick="setFilter('expired',this)">Expired</button>
+        </div>
+      </div>
+      <div class="cards" id="cards-grid">
+        <div class="loading-state"><span class="spinner"></span> Loading warranties…</div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ════════ CUSTOMER LOOKUP ════════ -->
+<div class="screen" id="screen-customer">
+  <div class="cust-header">
+    <div class="cust-logo">
+      <!-- customer logo -->
+      <img id="cust-company-logo" class="cust-logo-img" src="" alt="" style="display:none" onerror="this.style.display='none'"/>
+      <div class="cust-logo-icon" id="cust-default-icon">🛡</div>
+      Warranty<span>Vault</span>
+    </div>
+    <div class="cust-tagline">Check your PC parts warranty status</div>
+  </div>
+
+  <div class="lookup-box">
+    <h2>Look Up Your Warranties</h2>
+    <p>Enter the <strong style="color:var(--text)">Customer ID</strong> provided with your purchase to see all your warranty countdowns.</p>
+    <div class="lookup-row">
+      <input id="cust-input" type="text" placeholder="e.g. CUST-0042" onkeydown="if(event.key==='Enter')doLookup()"/>
+      <button class="btn-lookup" id="cust-btn" onclick="doLookup()">Search</button>
+    </div>
+    <div class="cust-err" id="cust-err">No warranties found for that Customer ID. Please check and try again.</div>
+  </div>
+
+  <div class="cust-results" id="cust-results"></div>
+  <div class="home-link"><a onclick="resetCustomer()">← Back to Home</a></div>
+</div>
+
+<!-- Delete confirm modal -->
+<div class="modal-overlay" id="del-modal">
+  <div class="modal">
+    <h3>Delete Warranty?</h3>
+    <p>This permanently removes the record from the database. This cannot be undone.</p>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeDelModal()">Cancel</button>
+      <button class="btn-confirm-del" id="del-confirm-btn" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Image upload modal -->
+<div class="modal-overlay" id="img-modal">
+  <div class="img-modal">
+    <h3>Product Image</h3>
+    <p>Click the preview to choose an image from your device. Recommended: square, transparent PNG.</p>
+    <div class="img-preview-wrap" id="img-preview-wrap" onclick="document.getElementById('img-file-input').click()">
+      <div class="img-preview-ph" id="img-preview-ph">
+        <span>🖼</span>
+        <p>Click to choose image</p>
+      </div>
+      <img id="img-preview-img" src="" alt="" style="display:none"/>
+    </div>
+    <input type="file" id="img-file-input" accept="image/*" style="display:none" onchange="onImgFileChange(event)"/>
+    <div class="img-modal-btns">
+      <button class="btn-upload-img" id="img-save-btn" onclick="saveImage()" disabled>Save Image</button>
+      <button class="btn-remove-img" id="img-remove-btn" onclick="removeImage()" style="display:none">Remove</button>
+      <button class="btn-cancel-img" onclick="closeImgModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// CONFIGURATION
+const SUPABASE_URL  = 'https://ngeyskutsqjvbaxnawps.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5nZXlza3V0c3FqdmJheG5hd3BzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1Njc5MDQsImV4cCI6MjA5ODE0MzkwNH0.DsVhzmYjQp8vodqyXLYdV1CtS82782j_D20T5xvILD0';
+const COMPANY_LOGO_URL = '';
+const ADMIN_USERNAME = 'admin';
+
+/* ── Apply logo everywhere ── */
+function applyLogo() {
+  if (!COMPANY_LOGO_URL) return;
+  const adminLogo = document.getElementById('company-logo-img');
+  const custLogo  = document.getElementById('cust-company-logo');
+  const custIcon  = document.getElementById('cust-default-icon');
+  if (adminLogo) { adminLogo.src = COMPANY_LOGO_URL; adminLogo.style.display = 'block'; }
+  if (custLogo)  { custLogo.src  = COMPANY_LOGO_URL; custLogo.style.display  = 'block'; }
+  if (custIcon)  { custIcon.style.display = 'none'; }
+}
+applyLogo();
+
+/* ══ Supabase helpers ══ */
+const SB_HDR = { apikey: SUPABASE_ANON, Authorization: `Bearer ${SUPABASE_ANON}`, 'Content-Type': 'application/json' };
+
+async function sbGet(table, query='') {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, { headers: SB_HDR });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+async function sbInsert(table, row) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    method:'POST', headers:{...SB_HDR, Prefer:'return=representation'}, body: JSON.stringify(row)
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+async function sbUpdate(table, query, patch) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, {
+    method:'PATCH', headers:{...SB_HDR, Prefer:'return=representation'}, body: JSON.stringify(patch)
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+async function sbDelete(table, query) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, { method:'DELETE', headers: SB_HDR });
+  if (!r.ok) throw new Error(await r.text());
+}
+
+/* ══ Password — stored in Supabase settings table ══ */
+let cachedPassword = null;
+
+async function getPassword() {
+  if (cachedPassword) return cachedPassword;
+  try {
+    const rows = await sbGet('settings', 'key=eq.admin_password&select=value');
+    cachedPassword = rows[0]?.value || 'admin123';
+    return cachedPassword;
+  } catch { return 'admin123'; }
+}
+async function savePassword(newPass) {
+  await sbUpdate('settings', 'key=eq.admin_password', { value: newPass });
+  cachedPassword = newPass;
+}
+
+/* ══ Screen nav ══ */
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* ══ Auth ══ */
+async function doLogin() {
+  const u   = document.getElementById('li-user').value.trim();
+  const p   = document.getElementById('li-pass').value;
+  const err = document.getElementById('li-err');
+  const btn = document.getElementById('li-btn');
+  err.style.display = 'none';
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Checking…';
+  try {
+    const pw = await getPassword();
+    if (u === ADMIN_USERNAME && p === pw) {
+      sessionStorage.setItem('wv_session', '1');
+      document.getElementById('f-date').valueAsDate = new Date();
+      goTo('screen-admin');
+      loadWarranties();
+    } else {
+      err.style.display = 'block';
+      document.getElementById('li-pass').value = '';
+    }
+  } catch {
+    err.textContent = 'Could not reach database. Check your Supabase config.';
+    err.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Sign In';
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem('wv_session');
+  document.getElementById('li-user').value = '';
+  document.getElementById('li-pass').value = '';
+  warranties = [];
+  goTo('screen-gate');
+}
+
+function toggleChangePw() {
+  const b = document.getElementById('changepw-box');
+  b.style.display = b.style.display === 'none' ? 'block' : 'none';
+}
+
+async function doChangePw() {
+  const old = document.getElementById('cp-old').value;
+  const nw  = document.getElementById('cp-new').value;
+  const con = document.getElementById('cp-con').value;
+  const err = document.getElementById('cp-err');
+  const ok  = document.getElementById('cp-ok');
+  const btn = document.getElementById('cp-btn');
+  err.style.display = 'none';
+  ok.style.display  = 'none';
+
+  const pw = await getPassword();
+  if (old !== pw)       { err.textContent = 'Current password is incorrect.';          err.style.display = 'block'; return; }
+  if (nw.length < 6)    { err.textContent = 'New password must be at least 6 characters.'; err.style.display = 'block'; return; }
+  if (nw !== con)       { err.textContent = 'New passwords do not match.';              err.style.display = 'block'; return; }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Saving…';
+  try {
+    await savePassword(nw);
+    ['cp-old','cp-new','cp-con'].forEach(id => document.getElementById(id).value = '');
+    ok.style.display = 'block';
+    showToast('Password updated in database!');
+  } catch {
+    err.textContent = 'Failed to save. Check Supabase connection.';
+    err.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Update Password';
+  }
+}
+
+/* resume session */
+if (sessionStorage.getItem('wv_session')) {
+  goTo('screen-admin');
+  document.getElementById('f-date').valueAsDate = new Date();
+}
+
+/* ══ Data ══ */
+let warranties = [];
+const PART_CATS = ['GPU','CPU','RAM','Motherboard'];
+
+function msLeft(w)   { return Math.max(0, new Date(w.expiry_date) - Date.now()); }
+function totalMs(w)  { return new Date(w.expiry_date) - new Date(w.purchase_date); }
+function pct(w)      { return Math.max(0, Math.min(100, (msLeft(w)/totalMs(w))*100)); }
+function statusOf(w) {
+  const ms = msLeft(w);
+  if (ms <= 0) return 'expired';
+  if (ms < 30*24*3600*1000) return 'warning';
+  return 'active';
+}
+function fmtDate(d)  { return new Date(d).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'}); }
+function fmtTime(ms) {
+  if (ms <= 0) return '00:00:00';
+  const s=Math.floor(ms/1000), d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60), sec=s%60;
+  const p=n=>String(n).padStart(2,'0');
+  return d>0?`${String(d).padStart(3,'0')}d ${p(h)}:${p(m)}:${p(sec)}`:`${p(h)}:${p(m)}:${p(sec)}`;
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function catOf(w) {
+  if (PART_CATS.includes(w.part_type)) return w.part_type;
+  return 'Others';
+}
+
+/* ══ Load warranties ══ */
+async function loadWarranties() {
+  try {
+    warranties = await sbGet('warranties','select=*&order=created_at.desc');
+    renderCards();
+  } catch(e) {
+    document.getElementById('cards-grid').innerHTML =
+      `<div class="empty"><div class="empty-icon">⚠️</div><p>Database error.<br><small style="color:var(--red)">${esc(e.message)}</small></p></div>`;
+  }
+}
+
+/* ══ Add warranty ══ */
+async function addWarranty() {
+  const name  = document.getElementById('f-name').value.trim();
+  const uid   = document.getElementById('f-uid').value.trim().toUpperCase();
+  const order = document.getElementById('f-order').value.trim();
+  const part  = document.getElementById('f-part').value;
+  const model = document.getElementById('f-model').value.trim();
+  const date  = document.getElementById('f-date').value;
+  const years = parseInt(document.getElementById('f-years').value);
+  const email = document.getElementById('f-email').value.trim();
+
+  if (!name||!uid||!order||!part||!model||!date){ showToast('Fill in all required fields.', 'err'); return; }
+
+  const purchaseDate = new Date(date);
+  const expiryDate   = new Date(purchaseDate.getTime() + years*365.25*24*3600*1000);
+
+  const btn = document.getElementById('add-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Saving…';
+  try {
+    await sbInsert('warranties', {
+      customer_name: name, customer_id: uid, order_id: order,
+      part_type: part, model_name: model, email: email||null,
+      purchase_date: purchaseDate.toISOString(), expiry_date: expiryDate.toISOString(),
+      warranty_years: years
+    });
+    clearForm();
+    await loadWarranties();
+    showToast('Warranty registered!');
+  } catch(e) {
+    const msg = e.message.includes('duplicate') ? 'Order ID already exists in database.' : 'Save failed. Check Supabase config.';
+    showToast(msg, 'err');
+  } finally {
+    btn.disabled = false; btn.innerHTML = 'Register Warranty';
+  }
+}
+
+function clearForm(){
+  ['f-name','f-uid','f-order','f-model','f-email'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-part').value='';
+  document.getElementById('f-years').value='3';
+  document.getElementById('f-date').valueAsDate=new Date();
+}
+
+/* ══ Delete ══ */
+let delTarget=null;
+function askDelete(id){ delTarget=id; document.getElementById('del-modal').classList.add('show'); }
+function closeDelModal(){ delTarget=null; document.getElementById('del-modal').classList.remove('show'); }
+async function confirmDelete(){
+  const btn=document.getElementById('del-confirm-btn');
+  btn.disabled=true; btn.textContent='Deleting…';
+  try {
+    await sbDelete('warranties',`id=eq.${delTarget}`);
+    closeDelModal();
+    await loadWarranties();
+    showToast('Record deleted.');
+  } catch { showToast('Delete failed.','err'); }
+  finally { btn.disabled=false; btn.textContent='Delete'; }
+}
+
+/* ══ Category + Filter ══ */
+let currentCat='All', currentFilter='all';
+
+function setCat(cat, btn){
+  currentCat = cat;
+  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderCards();
+}
+function setFilter(f, btn){
+  currentFilter = f;
+  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderCards();
+}
+
+function updateCatCounts(){
+  const cats=['All','GPU','CPU','RAM','Motherboard','Others'];
+  cats.forEach(cat=>{
+    const el=document.getElementById('cnt-'+cat);
+    if(!el) return;
+    el.textContent = cat==='All' ? warranties.length : warranties.filter(w=>catOf(w)===cat).length;
+  });
+}
+
+function renderCards(){
+  const grid=document.getElementById('cards-grid');
+  let list=warranties;
+  if(currentCat!=='All') list=list.filter(w=>catOf(w)===currentCat);
+  if(currentFilter!=='all') list=list.filter(w=>statusOf(w)===currentFilter);
+  list=[...list].sort((a,b)=>{
+    const o={active:0,warning:1,expired:2};
+    const sa=o[statusOf(a)],sb=o[statusOf(b)];
+    return sa!==sb?sa-sb:new Date(a.expiry_date)-new Date(b.expiry_date);
+  });
+
+  updateCatCounts();
+  updateStats();
+
+  if(!list.length){
+    grid.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><p>${currentCat==='All'&&currentFilter==='all'?'No warranties yet. Register the first one!':'No entries match this filter.'}</p></div>`;
+    return;
+  }
+
+  grid.innerHTML=list.map(w=>{
+    const st=statusOf(w),ms=msLeft(w),p=pct(w).toFixed(2);
+    const imgHtml = w.image_data
+      ? `<img class="card-img" src="${w.image_data}" alt="${esc(w.model_name)}"/>`
+      : `<div class="card-img-placeholder"><span>🖥</span><p>No image</p></div>`;
+    return `<div class="card ${st}">
+      <div class="card-img-wrap admin-img" onclick="openImgModal('${w.id}')">
+        ${imgHtml}
+        <div class="img-edit-overlay">
+          <div class="edit-icon">${w.image_data?'✏️':'📷'}</div>
+          <span>${w.image_data?'Change Image':'Add Image'}</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-top-row">
+          <div class="part-badge">${esc(w.part_type)}</div>
+          <button class="btn-del" onclick="askDelete('${w.id}')" title="Delete record">🗑</button>
+        </div>
+        <div class="customer-name">${esc(w.customer_name)}</div>
+        <div class="customer-uid">ID: ${esc(w.customer_id)}</div>
+        <div class="order-id-line">Order: ${esc(w.order_id)}${w.email?' · '+esc(w.email):''}</div>
+        <div class="part-name">${esc(w.model_name)}</div>
+        <div class="timer-block">
+          <div class="timer-label">${st==='expired'?'⛔ Warranty Expired':st==='warning'?'⚠️ Expiring Soon':'🟢 Time Remaining'}</div>
+          <div class="timer-digits ${st}" id="td_${w.id}">${fmtTime(ms)}</div>
+          <div class="timer-sub">Expires <b>${fmtDate(w.expiry_date)}</b></div>
+        </div>
+        <div class="progress-wrap"><div class="progress-bar ${st}" id="pb_${w.id}" style="width:${p}%"></div></div>
+        <div class="card-footer">
+          <div><span>Purchased</span><strong>${fmtDate(w.purchase_date)}</strong></div>
+          <div style="text-align:center"><span>Coverage</span><strong>${w.warranty_years} Yr${w.warranty_years>1?'s':''}</strong></div>
+          <div style="text-align:right"><span>Status</span><strong style="color:var(--${st==='active'?'green':st==='warning'?'amber':'red'})">${st[0].toUpperCase()+st.slice(1)}</strong></div>
+        </div>
+        <div class="share-row">
+          <div class="share-id">🪪 Customer ID: <strong>${esc(w.customer_id)}</strong></div>
+          <button class="btn-copy" onclick="copyText('${esc(w.customer_id)}')">Copy ID</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateStats(){
+  const a=warranties.filter(w=>statusOf(w)==='active').length;
+  const wn=warranties.filter(w=>statusOf(w)==='warning').length;
+  const e=warranties.filter(w=>statusOf(w)==='expired').length;
+  document.getElementById('s-total').textContent  =warranties.length;
+  document.getElementById('s-active').textContent =a;
+  document.getElementById('s-warning').textContent=wn;
+  document.getElementById('s-expired').textContent=e;
+}
+
+function copyText(text){
+  navigator.clipboard.writeText(text).catch(()=>{});
+  showToast('Customer ID copied!','info');
+}
+
+/* ══ Image Modal ══ */
+let imgTargetId=null, imgNewData=null;
+
+function openImgModal(id){
+  imgTargetId=id; imgNewData=null;
+  const w=warranties.find(x=>x.id===id);
+  const ph=document.getElementById('img-preview-ph');
+  const im=document.getElementById('img-preview-img');
+  const saveBtn=document.getElementById('img-save-btn');
+  const removeBtn=document.getElementById('img-remove-btn');
+  document.getElementById('img-file-input').value='';
+
+  if(w?.image_data){
+    ph.style.display='none'; im.src=w.image_data; im.style.display='block';
+    removeBtn.style.display='block';
+  } else {
+    ph.style.display='block'; im.style.display='none';
+    removeBtn.style.display='none';
+  }
+  saveBtn.disabled=true;
+  document.getElementById('img-modal').classList.add('show');
+}
+
+function closeImgModal(){
+  document.getElementById('img-modal').classList.remove('show');
+  imgTargetId=null; imgNewData=null;
+}
+
+function onImgFileChange(e){
+  const file=e.target.files[0];
+  if(!file) return;
+  if(file.size>2*1024*1024){ showToast('Image must be under 2MB.','err'); return; }
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    imgNewData=ev.target.result;
+    const ph=document.getElementById('img-preview-ph');
+    const im=document.getElementById('img-preview-img');
+    ph.style.display='none'; im.src=imgNewData; im.style.display='block';
+    document.getElementById('img-save-btn').disabled=false;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function saveImage(){
+  if(!imgTargetId||!imgNewData) return;
+  const btn=document.getElementById('img-save-btn');
+  btn.disabled=true; btn.innerHTML='<span class="spinner dark"></span>Saving…';
+  try {
+    await sbUpdate('warranties',`id=eq.${imgTargetId}`,{image_data:imgNewData});
+    const idx=warranties.findIndex(w=>w.id===imgTargetId);
+    if(idx>=0) warranties[idx].image_data=imgNewData;
+    closeImgModal();
+    renderCards();
+    showToast('Image saved!');
+  } catch { showToast('Image save failed.','err'); }
+  finally { btn.disabled=false; btn.innerHTML='Save Image'; }
+}
+
+async function removeImage(){
+  if(!imgTargetId) return;
+  const btn=document.getElementById('img-remove-btn');
+  btn.disabled=true; btn.textContent='Removing…';
+  try {
+    await sbUpdate('warranties',`id=eq.${imgTargetId}`,{image_data:null});
+    const idx=warranties.findIndex(w=>w.id===imgTargetId);
+    if(idx>=0) warranties[idx].image_data=null;
+    closeImgModal();
+    renderCards();
+    showToast('Image removed.');
+  } catch { showToast('Remove failed.','err'); }
+  finally { btn.disabled=false; btn.textContent='Remove'; }
+}
+
+/* ══ Customer Lookup ══ */
+let custIvs=[];
+
+async function doLookup(){
+  const q   =document.getElementById('cust-input').value.trim().toUpperCase();
+  const err  =document.getElementById('cust-err');
+  const res  =document.getElementById('cust-results');
+  const btn  =document.getElementById('cust-btn');
+  err.style.display='none'; res.style.display='none'; res.innerHTML='';
+  custIvs.forEach(clearInterval); custIvs=[];
+  if(!q) return;
+  btn.disabled=true; btn.innerHTML='<span class="spinner dark"></span>';
+  try {
+    const rows=await sbGet('warranties',`customer_id=eq.${encodeURIComponent(q)}&select=*&order=created_at.desc`);
+    if(!rows.length){ err.style.display='block'; return; }
+    rows.sort((a,b)=>{
+      const o={active:0,warning:1,expired:2};
+      return (o[statusOf(a)]-o[statusOf(b)])||(new Date(a.expiry_date)-new Date(b.expiry_date));
+    });
+    res.innerHTML=rows.map(w=>buildCustCard(w)).join('');
+    res.style.display='flex';
+    rows.forEach(w=>{ const iv=setInterval(()=>tickCustCard(w),1000); custIvs.push(iv); });
+  } catch(e){
+    err.textContent='Database error. Please try again.';
+    err.style.display='block';
+  } finally {
+    btn.disabled=false; btn.innerHTML='Search';
+  }
+}
+
+function buildCustCard(w){
+  const st=statusOf(w),ms=msLeft(w),p=pct(w).toFixed(2);
+  const stLabel={active:'✅ Active',warning:'⚠️ Expiring Soon',expired:'⛔ Expired'};
+  const stColor={active:'var(--green)',warning:'var(--amber)',expired:'var(--red)'};
+  const imgHtml=w.image_data
+    ?`<img src="${w.image_data}" alt="${esc(w.model_name)}" style="width:100%;height:100%;object-fit:contain;padding:.75rem"/>`
+    :`<div class="cust-card-img-ph">🖥</div>`;
+  return `<div class="cust-card ${st}">
+    <div class="cust-card-img">${imgHtml}</div>
+    <div class="cust-card-top">
+      <div>
+        <div class="cust-part-badge ${st}">${esc(w.part_type)}</div>
+        <div class="cust-name">${esc(w.customer_name)}</div>
+        <div class="cust-order-line">Order: ${esc(w.order_id)}</div>
+      </div>
+      <div class="cust-dot ${st}"></div>
+    </div>
+    <div class="cust-card-body">
+      <div class="cust-model">${esc(w.model_name)}</div>
+      <div class="cust-tlabel" id="ctl_${w.id}">${st==='expired'?'⛔ Warranty Expired':st==='warning'?'⚠️ Time Remaining (Expiring Soon)':'🟢 Time Remaining'}</div>
+      <div class="cust-timer ${st}" id="ct_${w.id}">${fmtTime(ms)}</div>
+      <div class="cust-tsub">Expires on <b>${fmtDate(w.expiry_date)}</b></div>
+      <div class="cust-pbar-wrap"><div class="cust-pbar ${st}" id="cpb_${w.id}" style="width:${p}%"></div></div>
+      <div class="cust-meta">
+        <div class="cust-meta-item"><div class="lbl">Purchase Date</div><div class="val">${fmtDate(w.purchase_date)}</div></div>
+        <div class="cust-meta-item"><div class="lbl">Coverage</div><div class="val">${w.warranty_years} Year${w.warranty_years>1?'s':''} Global</div></div>
+        <div class="cust-meta-item"><div class="lbl">Status</div><div class="val" style="color:${stColor[st]}">${stLabel[st]}</div></div>
+        <div class="cust-meta-item"><div class="lbl">Order ID</div><div class="val" style="font-family:var(--mono);font-size:.8rem">${esc(w.order_id)}</div></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function tickCustCard(w){
+  const ms=msLeft(w),st=statusOf(w);
+  const ct=document.getElementById('ct_'+w.id);
+  const cpb=document.getElementById('cpb_'+w.id);
+  const ctl=document.getElementById('ctl_'+w.id);
+  if(!ct) return;
+  ct.textContent=fmtTime(ms); ct.className='cust-timer '+st;
+  if(cpb){ cpb.style.width=pct(w).toFixed(4)+'%'; cpb.className='cust-pbar '+st; }
+  if(ctl) ctl.textContent=st==='expired'?'⛔ Warranty Expired':st==='warning'?'⚠️ Time Remaining (Expiring Soon)':'🟢 Time Remaining';
+}
+
+function resetCustomer(){
+  custIvs.forEach(clearInterval); custIvs=[];
+  document.getElementById('cust-results').style.display='none';
+  document.getElementById('cust-input').value='';
+  document.getElementById('cust-err').style.display='none';
+  goTo('screen-gate');
+}
+
+/* ══ Admin tick ══ */
+function tick(){
+  warranties.forEach(w=>{
+    const td=document.getElementById('td_'+w.id);
+    const pb=document.getElementById('pb_'+w.id);
+    if(!td) return;
+    const ms=msLeft(w),st=statusOf(w);
+    td.textContent=fmtTime(ms); td.className='timer-digits '+st;
+    if(pb){ pb.style.width=pct(w).toFixed(4)+'%'; pb.className='progress-bar '+st; }
+  });
+  const cl=document.getElementById('live-clock');
+  if(cl) cl.textContent=new Date().toLocaleTimeString('en-US',{hour12:false});
+}
+
+/* ══ Toast ══ */
+let _tt;
+function showToast(msg, type='ok'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;
+  el.className='toast show'+(type==='err'?' err':type==='info'?' info':'');
+  clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),3200);
+}
+
+setInterval(tick, 1000);
+tick();
+if(sessionStorage.getItem('wv_session')) loadWarranties();
+</script>
+</body>
+</html>
