@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>WarrantyVault — PC Parts Tracker</title>
+<title>hyperbyte — Warranty Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
 
 
@@ -291,8 +291,8 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 <div class="screen active" id="screen-gate">
   <div class="gate-wrap">
     <div class="gate-logo">
-      <div class="gate-logo-icon">🛡</div>
-      Warranty<span>Vault</span>
+      <img src="https://raw.githubusercontent.com/Mammoth007/warrantyvault/main/473176329_122100365006723615_244137078823968939_n.jpg" style="height:48px;width:auto;object-fit:contain;border-radius:10px" alt="HyperByte"/>
+      Hyper<span>Byte</span>
     </div>
     <div class="gate-tagline">PC Parts Global Warranty Tracking System</div>
     <div class="gate-cards">
@@ -313,6 +313,10 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 <!-- ════════ LOGIN ════════ -->
 <div class="screen" id="screen-login">
   <div class="login-box">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem">
+      <img src="https://raw.githubusercontent.com/Mammoth007/warrantyvault/main/473176329_122100365006723615_244137078823968939_n.jpg" style="height:40px;width:auto;object-fit:contain;border-radius:8px" alt="HyperByte"/>
+      <span style="font-family:var(--sans);font-size:1.2rem;font-weight:700">Hyper<span style="color:var(--teal)">Byte</span></span>
+    </div>
     <h2>Admin Login</h2>
     <div class="sub">Credentials are required to access the dashboard.</div>
     <div class="field"><label>Username</label><input id="li-user" type="text" placeholder="admin" autocomplete="username"/></div>
@@ -341,8 +345,8 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
       <!-- COMPANY LOGO: replace src with your logo URL, or remove img tag to show text only -->
       <img id="company-logo-img" class="company-logo-img" src="" alt="" style="display:none" onerror="this.style.display='none'"/>
       <div class="logo-text">
-        <div class="logo-icon">🛡</div>
-        Warranty<span>Vault</span>
+        <div class="logo-icon" style="display:none">🛡</div>
+        Hyper<span>Byte</span>
         <span style="color:var(--muted);font-size:.65rem;font-weight:400;margin-left:.15rem">Admin</span>
       </div>
     </div>
@@ -452,7 +456,7 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
       <!-- customer logo -->
       <img id="cust-company-logo" class="cust-logo-img" src="" alt="" style="display:none" onerror="this.style.display='none'"/>
       <div class="cust-logo-icon" id="cust-default-icon">🛡</div>
-      Warranty<span>Vault</span>
+      Hyper<span>Byte</span>
     </div>
     <div class="cust-tagline">Check your PC parts warranty status</div>
   </div>
@@ -510,7 +514,7 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 // CONFIGURATION
 const SUPABASE_URL  = 'https://ngeyskutsqjvbaxnawps.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5nZXlza3V0c3FqdmJheG5hd3BzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1Njc5MDQsImV4cCI6MjA5ODE0MzkwNH0.DsVhzmYjQp8vodqyXLYdV1CtS82782j_D20T5xvILD0';
-const COMPANY_LOGO_URL = 'https://raw.github.com/Mammoth007/warrantyvault/main/473176329_122100365006723615_244137078823968939_n.jpg';
+const COMPANY_LOGO_URL = 'https://raw.githubusercontent.com/Mammoth007/warrantyvault/main/473176329_122100365006723615_244137078823968939_n.jpg';
 const ADMIN_USERNAME = 'admin';
 
 /* ── Apply logo everywhere ── */
