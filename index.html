@@ -332,7 +332,7 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
         <label>Customer ID <span style="color:var(--blue);font-size:.62rem;text-transform:none">(unique per customer)</span></label>
         <input id="f-uid" type="text" placeholder="e.g. CUST-0042" style="font-family:var(--mono);letter-spacing:.05em"/>
       </div>
-      <div class="field"><label>Order ID</label><input id="f-order" type="text" placeholder="e.g. ORD-20240627"/></div>
+      <div class="field"><label>Product ID</label><input id="f-order" type="text" placeholder="e.g. ORD-20240627"/></div>
       <div class="field">
         <label>PC Part Type</label>
         <select id="f-part">
@@ -374,7 +374,7 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
     <main class="main">
       <div class="search-wrap" style="margin-bottom:1rem">
         <span class="search-icon">🔍</span>
-        <input id="admin-search" type="text" placeholder="Search by name, customer ID, order ID, or product…" oninput="onSearch(this)"/>
+        <input id="admin-search" type="text" placeholder="Search by name, customer ID, product ID, or product…" oninput="onSearch(this)"/>
         <button class="search-clear" id="search-clear-btn" onclick="clearSearch()">✕</button>
       </div>
       <div class="cat-tabs-wrap">
@@ -672,7 +672,7 @@ async function addWarranty() {
     await loadWarranties();
     showToast('Warranty registered!');
   } catch(e) {
-    const msg = e.message.includes('duplicate') ? 'Order ID already exists in database.' : 'Save failed. Check Supabase config.';
+    const msg = e.message.includes('duplicate') ? 'Product ID already exists in database.' : 'Save failed. Check Supabase config.';
     showToast(msg,'err');
   } finally {
     btn.disabled = false; btn.innerHTML = 'Register Warranty';
@@ -913,7 +913,7 @@ function buildCustCard(w){
         <div class="cust-meta-item"><div class="lbl">Purchase Date</div><div class="val">${fmtDate(w.purchase_date)}</div></div>
         <div class="cust-meta-item"><div class="lbl">Coverage</div><div class="val">${fmtCoverage(w.warranty_years)} Global</div></div>
         <div class="cust-meta-item"><div class="lbl">Status</div><div class="val" style="color:${stColor[st]}">${stLabel[st]}</div></div>
-        <div class="cust-meta-item"><div class="lbl">Order ID</div><div class="val" style="font-family:var(--mono);font-size:.8rem">${esc(w.order_id)}</div></div>
+        <div class="cust-meta-item"><div class="lbl">Product ID</div><div class="val" style="font-family:var(--mono);font-size:.8rem">${esc(w.order_id)}</div></div>
       </div>
     </div>
   </div>`;
