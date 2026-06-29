@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>HyperByte — Warranty Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
-
-
-
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -21,12 +18,8 @@
 }
 html{font-size:16px}
 body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden}
-
-/* ── SCREENS ── */
 .screen{display:none;min-height:100vh}
 .screen.active{display:flex;flex-direction:column}
-
-/* ══ GATE ══ */
 #screen-gate{align-items:center;justify-content:center;background:radial-gradient(ellipse at 60% 40%,#0D2040 0%,#08111F 70%)}
 .gate-wrap{text-align:center;max-width:520px;width:90%;padding:2rem 0}
 .gate-logo{display:flex;align-items:center;justify-content:center;gap:.8rem;font-family:var(--sans);font-size:1.8rem;font-weight:700;margin-bottom:.4rem}
@@ -40,8 +33,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:1
 .gate-card-icon{font-size:2.4rem;margin-bottom:1rem}
 .gate-card h2{font-family:var(--sans);font-size:1rem;font-weight:700;margin-bottom:.45rem}
 .gate-card p{font-size:.78rem;color:var(--muted);line-height:1.55}
-
-/* ══ SHARED FORM ══ */
 .field{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.85rem}
 .field label{font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
 .field input,.field select,.field textarea{background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:var(--body);font-size:.9rem;padding:.65rem .9rem;outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
@@ -58,8 +49,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:1
 .spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem}
 .spinner.dark{border-color:rgba(0,0,0,.2);border-top-color:#000}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* ══ LOGIN ══ */
 #screen-login{align-items:center;justify-content:center;flex-direction:column;gap:1rem;background:radial-gradient(ellipse at 40% 60%,#0D2040 0%,#08111F 70%)}
 .login-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.5rem 2.25rem;width:90%;max-width:390px}
 .login-box h2{font-family:var(--sans);font-size:1.2rem;font-weight:700;margin-bottom:.3rem}
@@ -70,8 +59,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:1
 .change-link{text-align:center;font-size:.78rem;color:var(--muted)}
 .change-link a{color:var(--blue);cursor:pointer;text-decoration:none}
 .change-link a:hover{text-decoration:underline}
-
-/* ══ ADMIN HEADER ══ */
 header.admin-header{display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:200}
 .header-left{display:flex;align-items:center;gap:.85rem}
 .company-logo-img{height:36px;width:auto;object-fit:contain;border-radius:6px}
@@ -82,8 +69,6 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 #live-clock{font-family:var(--mono);font-size:.88rem;color:var(--muted)}
 .btn-logout{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);cursor:pointer;font-size:.76rem;font-family:var(--sans);padding:.32rem .8rem;transition:all .2s}
 .btn-logout:hover{border-color:var(--red);color:var(--red)}
-
-/* ══ ADMIN LAYOUT ══ */
 .admin-body{display:grid;grid-template-columns:310px 1fr;flex:1;overflow:hidden;min-height:0}
 .sidebar{border-right:1px solid var(--border);padding:1.5rem 1.4rem;background:var(--surface);display:flex;flex-direction:column;gap:.85rem;overflow-y:auto;height:calc(100vh - 61px);position:sticky;top:61px}
 .sidebar-title{font-family:var(--sans);font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-bottom:.7rem;border-bottom:1px solid var(--border)}
@@ -93,11 +78,7 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 .stat-box .num{font-family:var(--sans);font-size:1.45rem;font-weight:700;line-height:1}
 .stat-box .lbl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.22rem}
 .s-total .num{color:var(--blue)}.s-active .num{color:var(--green)}.s-warning .num{color:var(--amber)}.s-expired .num{color:var(--red)}
-
-/* ══ MAIN AREA ══ */
 .main{padding:1.5rem 2rem;overflow-y:auto;flex:1}
-
-/* ── Category tabs ── */
 .cat-tabs-wrap{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem;flex-wrap:wrap;gap:.75rem}
 .cat-tabs{display:flex;gap:.4rem;flex-wrap:wrap}
 .cat-tab{display:flex;align-items:center;gap:.4rem;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--muted);cursor:pointer;font-size:.78rem;font-weight:500;font-family:var(--sans);padding:.38rem .85rem;transition:all .15s}
@@ -105,8 +86,6 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 .cat-tab.active{border-color:var(--blue);color:var(--blue);background:rgba(59,130,246,.12);font-weight:600}
 .cat-tab .badge{background:rgba(59,130,246,.18);border-radius:20px;font-size:.65rem;font-weight:700;padding:.1rem .45rem;min-width:18px;text-align:center}
 .cat-tab.active .badge{background:rgba(59,130,246,.3)}
-
-/* category color overrides */
 .cat-tab[data-cat="GPU"].active{border-color:var(--purple);color:var(--purple);background:rgba(167,139,250,.1)}
 .cat-tab[data-cat="GPU"].active .badge{background:rgba(167,139,250,.25)}
 .cat-tab[data-cat="CPU"].active{border-color:var(--teal);color:var(--teal);background:rgba(34,211,238,.08)}
@@ -116,9 +95,6 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 .cat-tab[data-cat="Motherboard"].active{border-color:var(--amber);color:var(--amber);background:rgba(245,158,11,.08)}
 .cat-tab[data-cat="Motherboard"].active .badge{background:rgba(245,158,11,.2)}
 .cat-tab[data-cat="Others"].active{border-color:var(--muted);color:var(--text);background:rgba(97,120,152,.1)}
-
-
-/* ── Search bar ── */
 .search-wrap{position:relative;margin-bottom:.5rem}
 .search-wrap input{background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:var(--body);font-size:.88rem;padding:.6rem .9rem .6rem 2.2rem;outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
 .search-wrap input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.15)}
@@ -130,65 +106,60 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 .filter-tab{background:var(--card);border:1px solid var(--border);border-radius:7px;color:var(--muted);cursor:pointer;font-size:.73rem;font-weight:500;padding:.33rem .75rem;transition:all .15s}
 .filter-tab.active,.filter-tab:hover{border-color:var(--blue);color:var(--blue);background:rgba(59,130,246,.08)}
 
-/* ══ WARRANTY CARDS ══ */
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem}
+/* ══ WARRANTY CARDS — compact grid ══ */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .3s,box-shadow .3s;display:flex;flex-direction:column}
 .card::before{content:'';display:block;height:3px;background:linear-gradient(90deg,var(--blue),var(--teal))}
 .card.warning::before{background:linear-gradient(90deg,var(--amber),#FCD34D)}
 .card.expired::before{background:var(--red)}
 .card.expired{border-color:rgba(239,68,68,.25)}
 .card:hover:not(.expired){border-color:rgba(59,130,246,.35);box-shadow:0 4px 22px rgba(59,130,246,.1)}
-
-/* product image */
-.card-img-wrap{position:relative;height:150px;background:#070F1C;overflow:hidden;cursor:default}
+.card-img-wrap{position:relative;height:110px;background:#070F1C;overflow:hidden;cursor:default}
 .card-img-wrap.admin-img{cursor:pointer}
-.card-img{width:100%;height:100%;object-fit:contain;padding:.75rem;transition:opacity .2s}
-.card-img-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;color:var(--border)}
-.card-img-placeholder span{font-size:2rem}
-.card-img-placeholder p{font-size:.68rem;color:var(--muted)}
-.img-edit-overlay{position:absolute;inset:0;background:rgba(10,20,40,.75);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;gap:.5rem;flex-direction:column}
+.card-img{width:100%;height:100%;object-fit:contain;padding:.5rem;transition:opacity .2s}
+.card-img-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;color:var(--border)}
+.card-img-placeholder span{font-size:1.6rem}
+.card-img-placeholder p{font-size:.62rem;color:var(--muted)}
+.img-edit-overlay{position:absolute;inset:0;background:rgba(10,20,40,.75);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;gap:.4rem;flex-direction:column}
 .card-img-wrap.admin-img:hover .img-edit-overlay{opacity:1}
-.img-edit-overlay span{font-size:.75rem;color:#fff;font-family:var(--sans);font-weight:600}
-.img-edit-overlay .edit-icon{font-size:1.6rem}
-
-.card-body{padding:1.1rem 1.2rem 1rem;display:flex;flex-direction:column;flex:1}
-.card-top-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.65rem}
-.part-badge{background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);border-radius:6px;color:var(--blue);font-family:var(--sans);font-size:.65rem;font-weight:700;letter-spacing:.08em;padding:.2rem .52rem;text-transform:uppercase}
+.img-edit-overlay span{font-size:.72rem;color:#fff;font-family:var(--sans);font-weight:600}
+.img-edit-overlay .edit-icon{font-size:1.3rem}
+.card-body{padding:.75rem .9rem .7rem;display:flex;flex-direction:column;flex:1}
+.card-top-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.45rem}
+.part-badge{background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);border-radius:6px;color:var(--blue);font-family:var(--sans);font-size:.62rem;font-weight:700;letter-spacing:.08em;padding:.18rem .45rem;text-transform:uppercase}
 .card.warning .part-badge{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.3);color:var(--amber)}
 .card.expired .part-badge{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.2);color:var(--red)}
-.btn-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.92rem;padding:.18rem .32rem;border-radius:5px;transition:all .2s}
+.btn-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.88rem;padding:.15rem .28rem;border-radius:5px;transition:all .2s}
 .btn-del:hover{color:var(--red);background:rgba(239,68,68,.1)}
-.customer-name{font-family:var(--sans);font-size:.97rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.12rem}
-.customer-uid{font-size:.7rem;color:var(--blue);font-family:var(--mono);margin-bottom:.08rem}
-.order-id-line{font-size:.7rem;color:var(--muted);margin-bottom:.08rem}
-.part-name{font-size:.78rem;color:var(--teal);font-weight:500;margin-bottom:.8rem}
+.customer-name{font-family:var(--sans);font-size:.88rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.08rem}
+.customer-uid{font-size:.65rem;color:var(--blue);font-family:var(--mono);margin-bottom:.05rem}
+.order-id-line{font-size:.65rem;color:var(--muted);margin-bottom:.05rem}
+.part-name{font-size:.75rem;color:var(--teal);font-weight:500;margin-bottom:.5rem}
 .card.expired .part-name{color:var(--muted)}
-.timer-block{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:.75rem .9rem;margin-bottom:.7rem;text-align:center}
-.timer-label{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.38rem}
-.timer-digits{font-family:var(--mono);font-size:1.75rem;letter-spacing:.06em;color:var(--teal);line-height:1;transition:color .5s}
+.timer-block{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.5rem .7rem;margin-bottom:.5rem;text-align:center}
+.timer-label{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25rem}
+.timer-digits{font-family:var(--mono);font-size:1.35rem;letter-spacing:.04em;color:var(--teal);line-height:1;transition:color .5s}
 .timer-digits.warning{color:var(--amber)}
 .timer-digits.expired{color:var(--red);animation:blink 1.6s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.48}}
-.timer-sub{font-size:.62rem;color:var(--muted);margin-top:.32rem;font-family:var(--mono)}
+.timer-sub{font-size:.6rem;color:var(--muted);margin-top:.2rem;font-family:var(--mono)}
 .timer-sub b{color:var(--text);font-weight:400;opacity:.75}
-.progress-wrap{background:var(--bg);border-radius:4px;height:3px;margin-bottom:.65rem;overflow:hidden}
+.progress-wrap{background:var(--bg);border-radius:4px;height:3px;margin-bottom:.45rem;overflow:hidden}
 .progress-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width 1s linear,background .5s}
 .progress-bar.warning{background:linear-gradient(90deg,var(--amber),#FCD34D)}
 .progress-bar.expired{background:var(--red)}
-.card-footer{display:flex;justify-content:space-between;font-size:.68rem;color:var(--muted);margin-bottom:.65rem}
-.card-footer div{display:flex;flex-direction:column;gap:.08rem}
-.card-footer strong{color:var(--text);font-size:.73rem;font-weight:500}
-.share-row{display:flex;align-items:center;gap:.5rem;padding-top:.65rem;border-top:1px solid var(--border);margin-top:auto}
-.share-id{flex:1;font-family:var(--mono);font-size:.68rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.btn-copy{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:6px;color:var(--blue);cursor:pointer;font-size:.68rem;font-family:var(--sans);font-weight:600;padding:.22rem .55rem;white-space:nowrap;transition:all .2s}
+.card-footer{display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-bottom:.45rem}
+.card-footer div{display:flex;flex-direction:column;gap:.06rem}
+.card-footer strong{color:var(--text);font-size:.7rem;font-weight:500}
+.share-row{display:flex;align-items:center;gap:.4rem;padding-top:.5rem;border-top:1px solid var(--border);margin-top:auto}
+.share-id{flex:1;font-family:var(--mono);font-size:.65rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-copy{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:6px;color:var(--blue);cursor:pointer;font-size:.65rem;font-family:var(--sans);font-weight:600;padding:.2rem .5rem;white-space:nowrap;transition:all .2s}
 .btn-copy:hover{background:rgba(59,130,246,.22)}
-
 .empty{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--muted)}
 .empty-icon{font-size:2.5rem;margin-bottom:.75rem;opacity:.3}
 .empty p{font-size:.87rem}
 .loading-state{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--muted);font-size:.87rem}
 
-/* ══ CUSTOMER SCREEN ══ */
 #screen-customer{align-items:center;justify-content:flex-start;background:radial-gradient(ellipse at 50% 30%,#0D2040 0%,#08111F 70%);padding:2.5rem 1rem 4rem}
 .cust-header{text-align:center;margin-bottom:2rem}
 .cust-logo{display:flex;align-items:center;justify-content:center;gap:.7rem;font-family:var(--sans);font-size:1.4rem;font-weight:700;margin-bottom:.35rem}
@@ -208,8 +179,6 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 .cust-err{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:8px;color:var(--red);font-size:.8rem;padding:.55rem .8rem;margin-top:.85rem;display:none;text-align:center}
 .cust-results{width:100%;max-width:480px;display:none;flex-direction:column;gap:1.1rem}
 .cust-section-title{font-family:var(--sans);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:.5rem 0 .3rem}
-
-/* customer card */
 .cust-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
 .cust-card-img{height:160px;background:#070F1C;overflow:hidden}
 .cust-card-img img{width:100%;height:100%;object-fit:contain;padding:.75rem}
@@ -241,15 +210,12 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 .cust-meta-item{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:.7rem .85rem}
 .cust-meta-item .lbl{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.22rem}
 .cust-meta-item .val{font-size:.83rem;font-weight:500;font-family:var(--sans)}
-
 .back-link{text-align:center;margin-top:.65rem;font-size:.77rem;color:var(--muted)}
 .back-link a{color:var(--blue);cursor:pointer;text-decoration:none}
 .back-link a:hover{text-decoration:underline}
 .home-link{margin-top:1.5rem;font-size:.75rem;color:var(--muted);text-align:center}
 .home-link a{color:var(--blue);cursor:pointer;text-decoration:none}
 .home-link a:hover{text-decoration:underline}
-
-/* ══ MODALS ══ */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:500;opacity:0;pointer-events:none;transition:opacity .2s}
 .modal-overlay.show{opacity:1;pointer-events:all}
 .modal{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:380px;width:92%;text-align:center}
@@ -260,8 +226,6 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 .modal-btns button:hover{opacity:.8}
 .btn-cancel{background:var(--border);color:var(--text)}
 .btn-confirm-del{background:var(--red);color:#fff}
-
-/* image upload modal */
 .img-modal{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:440px;width:92%}
 .img-modal h3{font-family:var(--sans);font-size:1rem;font-weight:700;margin-bottom:.3rem}
 .img-modal p{font-size:.8rem;color:var(--muted);margin-bottom:1.25rem}
@@ -277,13 +241,10 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 .btn-remove-img{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:9px;color:var(--red);cursor:pointer;font-family:var(--sans);font-size:.88rem;font-weight:600;padding:.7rem .9rem;transition:all .2s}
 .btn-remove-img:hover{background:rgba(239,68,68,.2)}
 .btn-cancel-img{background:var(--border);border:none;border-radius:9px;color:var(--text);cursor:pointer;font-family:var(--sans);font-size:.88rem;font-weight:600;padding:.7rem .9rem}
-
-/* ══ TOAST ══ */
 .toast{position:fixed;bottom:2rem;right:2rem;background:var(--green);color:#fff;font-family:var(--sans);font-size:.82rem;font-weight:600;padding:.65rem 1.1rem;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:all .25s;z-index:1000;pointer-events:none;max-width:300px}
 .toast.show{opacity:1;transform:translateY(0)}
 .toast.err{background:var(--red)}
 .toast.info{background:var(--blue)}
-
 @media(max-width:900px){
   .admin-body{grid-template-columns:1fr}
   .sidebar{height:auto;position:static;border-right:none;border-bottom:1px solid var(--border)}
@@ -351,7 +312,6 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 <div class="screen" id="screen-admin">
   <header class="admin-header">
     <div class="header-left" onclick="goTo('screen-gate')" style="cursor:pointer" title="Go to Home">
-      <!-- COMPANY LOGO: replace src with your logo URL, or remove img tag to show text only -->
       <img id="company-logo-img" class="company-logo-img" src="" alt="" style="display:none" onerror="this.style.display='none'"/>
       <div class="logo-text">
         <div class="logo-icon" style="display:none">🛡</div>
@@ -364,49 +324,27 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
       <button class="btn-logout" onclick="doLogout()">Sign Out</button>
     </div>
   </header>
-
   <div class="admin-body">
-    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-title">➕ Register New Warranty</div>
-
-      <div class="field">
-        <label>Customer Name</label>
-        <input id="f-name" type="text" placeholder="e.g. Alex Johnson"/>
-      </div>
+      <div class="field"><label>Customer Name</label><input id="f-name" type="text" placeholder="e.g. Alex Johnson"/></div>
       <div class="field">
         <label>Customer ID <span style="color:var(--blue);font-size:.62rem;text-transform:none">(unique per customer)</span></label>
         <input id="f-uid" type="text" placeholder="e.g. CUST-0042" style="font-family:var(--mono);letter-spacing:.05em"/>
       </div>
-      <div class="field">
-        <label>Order ID</label>
-        <input id="f-order" type="text" placeholder="e.g. ORD-20240627"/>
-      </div>
+      <div class="field"><label>Order ID</label><input id="f-order" type="text" placeholder="e.g. ORD-20240627"/></div>
       <div class="field">
         <label>PC Part Type</label>
         <select id="f-part">
           <option value="">— Select —</option>
-          <option>GPU</option>
-          <option>CPU</option>
-          <option>RAM</option>
-          <option>Motherboard</option>
-          <option>SSD</option>
-          <option>HDD</option>
-          <option>PSU</option>
-          <option>CPU Cooler</option>
-          <option>PC Case</option>
-          <option>Others</option>
+          <option>GPU</option><option>CPU</option><option>RAM</option>
+          <option>Motherboard</option><option>SSD</option><option>HDD</option>
+          <option>PSU</option><option>CPU Cooler</option><option>PC Case</option><option>Others</option>
         </select>
       </div>
-      <div class="field">
-        <label>Product / Model Name</label>
-        <input id="f-model" type="text" placeholder="e.g. RTX 4070 Ti SUPER"/>
-      </div>
+      <div class="field"><label>Product / Model Name</label><input id="f-model" type="text" placeholder="e.g. RTX 4070 Ti SUPER"/></div>
       <div class="row2">
-        <div class="field">
-          <label>Purchase Date</label>
-          <input id="f-date" type="date"/>
-        </div>
+        <div class="field"><label>Purchase Date</label><input id="f-date" type="date"/></div>
         <div class="field">
           <label>Warranty</label>
           <select id="f-years">
@@ -425,9 +363,7 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
         <label>Customer Email <span style="color:var(--muted);font-size:.62rem;text-transform:none">(optional)</span></label>
         <input id="f-email" type="email" placeholder="customer@email.com"/>
       </div>
-
       <button class="btn-primary" id="add-btn" onclick="addWarranty()">Register Warranty</button>
-
       <div class="stats-grid">
         <div class="stat-box s-total"><div class="num" id="s-total">—</div><div class="lbl">Total</div></div>
         <div class="stat-box s-active"><div class="num" id="s-active">—</div><div class="lbl">Active</div></div>
@@ -435,8 +371,6 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
         <div class="stat-box s-expired"><div class="num" id="s-expired">—</div><div class="lbl">Expired</div></div>
       </div>
     </aside>
-
-    <!-- MAIN -->
     <main class="main">
       <div class="search-wrap" style="margin-bottom:1rem">
         <span class="search-icon">🔍</span>
@@ -470,14 +404,12 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 <div class="screen" id="screen-customer">
   <div class="cust-header">
     <div class="cust-logo">
-      <!-- customer logo -->
       <img id="cust-company-logo" class="cust-logo-img" src="" alt="" style="display:none" onerror="this.style.display='none'"/>
       <div class="cust-logo-icon" id="cust-default-icon">🛡</div>
       Hyper<span>Byte</span>
     </div>
     <div class="cust-tagline">Check your PC parts warranty status</div>
   </div>
-
   <div class="lookup-box">
     <h2>Look Up Your Warranties</h2>
     <p>Enter the <strong style="color:var(--text)">Customer ID</strong> provided with your purchase to see all your warranty countdowns.</p>
@@ -487,12 +419,11 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
     </div>
     <div class="cust-err" id="cust-err">No warranties found for that Customer ID. Please check and try again.</div>
   </div>
-
   <div class="cust-results" id="cust-results"></div>
   <div class="home-link"><a onclick="resetCustomer()">← Back to Home</a></div>
 </div>
 
-<!-- Delete confirm modal -->
+<!-- Delete modal -->
 <div class="modal-overlay" id="del-modal">
   <div class="modal">
     <h3>Delete Warranty?</h3>
@@ -504,16 +435,13 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
   </div>
 </div>
 
-<!-- Image upload modal -->
+<!-- Image modal -->
 <div class="modal-overlay" id="img-modal">
   <div class="img-modal">
     <h3>Product Image</h3>
     <p>Click the preview to choose an image from your device. Recommended: square, transparent PNG.</p>
     <div class="img-preview-wrap" id="img-preview-wrap" onclick="document.getElementById('img-file-input').click()">
-      <div class="img-preview-ph" id="img-preview-ph">
-        <span>🖼</span>
-        <p>Click to choose image</p>
-      </div>
+      <div class="img-preview-ph" id="img-preview-ph"><span>🖼</span><p>Click to choose image</p></div>
       <img id="img-preview-img" src="" alt="" style="display:none"/>
     </div>
     <input type="file" id="img-file-input" accept="image/*" style="display:none" onchange="onImgFileChange(event)"/>
@@ -534,7 +462,6 @@ const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const COMPANY_LOGO_URL = 'https://raw.githubusercontent.com/Mammoth007/warrantyvault/main/473176329_122100365006723615_244137078823968939_n.jpg';
 const ADMIN_USERNAME = 'admin';
 
-/* ── Apply logo everywhere ── */
 function applyLogo() {
   if (!COMPANY_LOGO_URL) return;
   const adminLogo = document.getElementById('company-logo-img');
@@ -546,9 +473,7 @@ function applyLogo() {
 }
 applyLogo();
 
-/* ══ Supabase helpers ══ */
 const SB_HDR = { apikey: SUPABASE_ANON, Authorization: `Bearer ${SUPABASE_ANON}`, 'Content-Type': 'application/json' };
-
 async function sbGet(table, query='') {
   const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, { headers: SB_HDR });
   if (!r.ok) throw new Error(await r.text());
@@ -573,9 +498,7 @@ async function sbDelete(table, query) {
   if (!r.ok) throw new Error(await r.text());
 }
 
-/* ══ Password — stored in Supabase settings table ══ */
 let cachedPassword = null;
-
 async function getPassword() {
   if (cachedPassword) return cachedPassword;
   try {
@@ -589,21 +512,18 @@ async function savePassword(newPass) {
   cachedPassword = newPass;
 }
 
-/* ══ Screen nav ══ */
 function goTo(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-/* ══ Auth ══ */
 async function doLogin() {
-  const u   = document.getElementById('li-user').value.trim();
-  const p   = document.getElementById('li-pass').value;
+  const u = document.getElementById('li-user').value.trim();
+  const p = document.getElementById('li-pass').value;
   const err = document.getElementById('li-err');
   const btn = document.getElementById('li-btn');
   err.style.display = 'none';
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Checking…';
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Checking…';
   try {
     const pw = await getPassword();
     if (u === ADMIN_USERNAME && p === pw) {
@@ -619,8 +539,7 @@ async function doLogin() {
     err.textContent = 'Could not reach database. Check your Supabase config.';
     err.style.display = 'block';
   } finally {
-    btn.disabled = false;
-    btn.innerHTML = 'Sign In';
+    btn.disabled = false; btn.innerHTML = 'Sign In';
   }
 }
 
@@ -644,16 +563,12 @@ async function doChangePw() {
   const err = document.getElementById('cp-err');
   const ok  = document.getElementById('cp-ok');
   const btn = document.getElementById('cp-btn');
-  err.style.display = 'none';
-  ok.style.display  = 'none';
-
+  err.style.display = 'none'; ok.style.display = 'none';
   const pw = await getPassword();
-  if (old !== pw)       { err.textContent = 'Current password is incorrect.';          err.style.display = 'block'; return; }
-  if (nw.length < 6)    { err.textContent = 'New password must be at least 6 characters.'; err.style.display = 'block'; return; }
-  if (nw !== con)       { err.textContent = 'New passwords do not match.';              err.style.display = 'block'; return; }
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Saving…';
+  if (old !== pw)     { err.textContent = 'Current password is incorrect.';           err.style.display = 'block'; return; }
+  if (nw.length < 6)  { err.textContent = 'New password must be at least 6 characters.'; err.style.display = 'block'; return; }
+  if (nw !== con)     { err.textContent = 'New passwords do not match.';               err.style.display = 'block'; return; }
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Saving…';
   try {
     await savePassword(nw);
     ['cp-old','cp-new','cp-con'].forEach(id => document.getElementById(id).value = '');
@@ -663,21 +578,17 @@ async function doChangePw() {
     err.textContent = 'Failed to save. Check Supabase connection.';
     err.style.display = 'block';
   } finally {
-    btn.disabled = false;
-    btn.innerHTML = 'Update Password';
+    btn.disabled = false; btn.innerHTML = 'Update Password';
   }
 }
 
-/* resume session */
 if (sessionStorage.getItem('wv_session')) {
   goTo('screen-admin');
   document.getElementById('f-date').valueAsDate = new Date();
 }
 
-/* ══ Data ══ */
 let warranties = [];
 const PART_CATS = ['GPU','CPU','RAM','Motherboard'];
-
 function msLeft(w)   { return Math.max(0, new Date(w.expiry_date) - Date.now()); }
 function totalMs(w)  { return new Date(w.expiry_date) - new Date(w.purchase_date); }
 function pct(w)      { return Math.max(0, Math.min(100, (msLeft(w)/totalMs(w))*100)); }
@@ -696,19 +607,12 @@ function fmtTime(ms) {
 }
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function fmtCoverage(years) {
-  if (years < 1) {
-    const m = Math.round(years * 12);
-    return m + ' Month' + (m > 1 ? 's' : '');
-  }
+  if (years < 1) { const m = Math.round(years * 12); return m + ' Month' + (m > 1 ? 's' : ''); }
   return years + ' Year' + (years > 1 ? 's' : '');
 }
-function catOf(w) {
-  if (PART_CATS.includes(w.part_type)) return w.part_type;
-  return 'Others';
-}
+function catOf(w) { return PART_CATS.includes(w.part_type) ? w.part_type : 'Others'; }
 
-
-/* ══ Search ══ */
+/* ══ Search — sequential matching only ══ */
 let searchQuery = '';
 function onSearch(input) {
   searchQuery = input.value.trim().toLowerCase();
@@ -721,8 +625,18 @@ function clearSearch() {
   document.getElementById('search-clear-btn').style.display = 'none';
   renderCards();
 }
+function matchesSearch(w) {
+  if (!searchQuery) return true;
+  const q = searchQuery;
+  // Check if any word in any field starts with the query (sequential from start)
+  const fields = [w.customer_name, w.customer_id, w.order_id, w.model_name, w.part_type];
+  return fields.some(f => {
+    const val = f.toLowerCase();
+    // matches from very start of field, OR from start of any word within the field
+    return val.startsWith(q) || val.split(/[\s\-_]+/).some(word => word.startsWith(q));
+  });
+}
 
-/* ══ Load warranties ══ */
 async function loadWarranties() {
   try {
     warranties = await sbGet('warranties','select=*&order=created_at.desc');
@@ -733,7 +647,6 @@ async function loadWarranties() {
   }
 }
 
-/* ══ Add warranty ══ */
 async function addWarranty() {
   const name  = document.getElementById('f-name').value.trim();
   const uid   = document.getElementById('f-uid').value.trim().toUpperCase();
@@ -741,14 +654,11 @@ async function addWarranty() {
   const part  = document.getElementById('f-part').value;
   const model = document.getElementById('f-model').value.trim();
   const date  = document.getElementById('f-date').value;
-  const years = parseInt(document.getElementById('f-years').value);
+  const years = parseFloat(document.getElementById('f-years').value);
   const email = document.getElementById('f-email').value.trim();
-
-  if (!name||!uid||!order||!part||!model||!date){ showToast('Fill in all required fields.', 'err'); return; }
-
+  if (!name||!uid||!order||!part||!model||!date){ showToast('Fill in all required fields.','err'); return; }
   const purchaseDate = new Date(date);
   const expiryDate   = new Date(purchaseDate.getTime() + years*365.25*24*3600*1000);
-
   const btn = document.getElementById('add-btn');
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Saving…';
   try {
@@ -763,7 +673,7 @@ async function addWarranty() {
     showToast('Warranty registered!');
   } catch(e) {
     const msg = e.message.includes('duplicate') ? 'Order ID already exists in database.' : 'Save failed. Check Supabase config.';
-    showToast(msg, 'err');
+    showToast(msg,'err');
   } finally {
     btn.disabled = false; btn.innerHTML = 'Register Warranty';
   }
@@ -772,11 +682,10 @@ async function addWarranty() {
 function clearForm(){
   ['f-name','f-uid','f-order','f-model','f-email'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-part').value='';
-  document.getElementById('f-years').value='3';
+  document.getElementById('f-years').value='1';
   document.getElementById('f-date').valueAsDate=new Date();
 }
 
-/* ══ Delete ══ */
 let delTarget=null;
 function askDelete(id){ delTarget=id; document.getElementById('del-modal').classList.add('show'); }
 function closeDelModal(){ delTarget=null; document.getElementById('del-modal').classList.remove('show'); }
@@ -785,16 +694,12 @@ async function confirmDelete(){
   btn.disabled=true; btn.textContent='Deleting…';
   try {
     await sbDelete('warranties',`id=eq.${delTarget}`);
-    closeDelModal();
-    await loadWarranties();
-    showToast('Record deleted.');
+    closeDelModal(); await loadWarranties(); showToast('Record deleted.');
   } catch { showToast('Delete failed.','err'); }
   finally { btn.disabled=false; btn.textContent='Delete'; }
 }
 
-/* ══ Category + Filter ══ */
 let currentCat='All', currentFilter='all';
-
 function setCat(cat, btn){
   currentCat = cat;
   document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
@@ -822,27 +727,18 @@ function renderCards(){
   let list=warranties;
   if(currentCat!=='All') list=list.filter(w=>catOf(w)===currentCat);
   if(currentFilter!=='all') list=list.filter(w=>statusOf(w)===currentFilter);
-  if(searchQuery) list=list.filter(w=>
-    w.customer_name.toLowerCase().includes(searchQuery)||
-    w.customer_id.toLowerCase().includes(searchQuery)||
-    w.order_id.toLowerCase().includes(searchQuery)||
-    w.model_name.toLowerCase().includes(searchQuery)||
-    w.part_type.toLowerCase().includes(searchQuery)
-  );
+  list=list.filter(w=>matchesSearch(w));
   list=[...list].sort((a,b)=>{
     const o={active:0,warning:1,expired:2};
     const sa=o[statusOf(a)],sb=o[statusOf(b)];
     return sa!==sb?sa-sb:new Date(a.expiry_date)-new Date(b.expiry_date);
   });
-
   updateCatCounts();
   updateStats();
-
   if(!list.length){
-    grid.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><p>${currentCat==='All'&&currentFilter==='all'?'No warranties yet. Register the first one!':'No entries match this filter.'}</p></div>`;
+    grid.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><p>${currentCat==='All'&&currentFilter==='all'&&!searchQuery?'No warranties yet. Register the first one!':'No entries match this filter.'}</p></div>`;
     return;
   }
-
   grid.innerHTML=list.map(w=>{
     const st=statusOf(w),ms=msLeft(w),p=pct(w).toFixed(2);
     const imgHtml = w.image_data
@@ -900,9 +796,7 @@ function copyText(text){
   showToast('Customer ID copied!','info');
 }
 
-/* ══ Image Modal ══ */
 let imgTargetId=null, imgNewData=null;
-
 function openImgModal(id){
   imgTargetId=id; imgNewData=null;
   const w=warranties.find(x=>x.id===id);
@@ -911,7 +805,6 @@ function openImgModal(id){
   const saveBtn=document.getElementById('img-save-btn');
   const removeBtn=document.getElementById('img-remove-btn');
   document.getElementById('img-file-input').value='';
-
   if(w?.image_data){
     ph.style.display='none'; im.src=w.image_data; im.style.display='block';
     removeBtn.style.display='block';
@@ -922,12 +815,10 @@ function openImgModal(id){
   saveBtn.disabled=true;
   document.getElementById('img-modal').classList.add('show');
 }
-
 function closeImgModal(){
   document.getElementById('img-modal').classList.remove('show');
   imgTargetId=null; imgNewData=null;
 }
-
 function onImgFileChange(e){
   const file=e.target.files[0];
   if(!file) return;
@@ -942,7 +833,6 @@ function onImgFileChange(e){
   };
   reader.readAsDataURL(file);
 }
-
 async function saveImage(){
   if(!imgTargetId||!imgNewData) return;
   const btn=document.getElementById('img-save-btn');
@@ -951,13 +841,10 @@ async function saveImage(){
     await sbUpdate('warranties',`id=eq.${imgTargetId}`,{image_data:imgNewData});
     const idx=warranties.findIndex(w=>w.id===imgTargetId);
     if(idx>=0) warranties[idx].image_data=imgNewData;
-    closeImgModal();
-    renderCards();
-    showToast('Image saved!');
+    closeImgModal(); renderCards(); showToast('Image saved!');
   } catch { showToast('Image save failed.','err'); }
   finally { btn.disabled=false; btn.innerHTML='Save Image'; }
 }
-
 async function removeImage(){
   if(!imgTargetId) return;
   const btn=document.getElementById('img-remove-btn');
@@ -966,16 +853,12 @@ async function removeImage(){
     await sbUpdate('warranties',`id=eq.${imgTargetId}`,{image_data:null});
     const idx=warranties.findIndex(w=>w.id===imgTargetId);
     if(idx>=0) warranties[idx].image_data=null;
-    closeImgModal();
-    renderCards();
-    showToast('Image removed.');
+    closeImgModal(); renderCards(); showToast('Image removed.');
   } catch { showToast('Remove failed.','err'); }
   finally { btn.disabled=false; btn.textContent='Remove'; }
 }
 
-/* ══ Customer Lookup ══ */
 let custIvs=[];
-
 async function doLookup(){
   const q   =document.getElementById('cust-input').value.trim().toUpperCase();
   const err  =document.getElementById('cust-err');
@@ -1055,7 +938,6 @@ function resetCustomer(){
   goTo('screen-gate');
 }
 
-/* ══ Admin tick ══ */
 function tick(){
   warranties.forEach(w=>{
     const td=document.getElementById('td_'+w.id);
@@ -1069,7 +951,6 @@ function tick(){
   if(cl) cl.textContent=new Date().toLocaleTimeString('en-US',{hour12:false});
 }
 
-/* ══ Toast ══ */
 let _tt;
 function showToast(msg, type='ok'){
   const el=document.getElementById('toast');
