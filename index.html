@@ -332,7 +332,7 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
         <label>Customer ID <span style="color:var(--blue);font-size:.62rem;text-transform:none">(unique per customer)</span></label>
         <input id="f-uid" type="text" placeholder="e.g. CUST-0042" style="font-family:var(--mono);letter-spacing:.05em"/>
       </div>
-      <div class="field"><label>Product ID</label><input id="f-order" type="text" placeholder="e.g. ORD-20240627"/></div>
+      <div class="field"><label>Product ID</label><input id="f-product" type="text" placeholder="e.g. ORD-20240627"/></div>
       <div class="field">
         <label>PC Part Type</label>
         <select id="f-part">
@@ -629,7 +629,7 @@ function matchesSearch(w) {
   if (!searchQuery) return true;
   const q = searchQuery;
   // Check if any word in any field starts with the query (sequential from start)
-  const fields = [w.customer_name, w.customer_id, w.order_id, w.model_name, w.part_type];
+  const fields = [w.customer_name, w.customer_id, w.product_id, w.model_name, w.part_type];
   return fields.some(f => {
     const val = f.toLowerCase();
     // matches from very start of field, OR from start of any word within the field
@@ -650,20 +650,20 @@ async function loadWarranties() {
 async function addWarranty() {
   const name  = document.getElementById('f-name').value.trim();
   const uid   = document.getElementById('f-uid').value.trim().toUpperCase();
-  const order = document.getElementById('f-order').value.trim();
+  const product = document.getElementById('f-product').value.trim();
   const part  = document.getElementById('f-part').value;
   const model = document.getElementById('f-model').value.trim();
   const date  = document.getElementById('f-date').value;
   const years = parseFloat(document.getElementById('f-years').value);
   const email = document.getElementById('f-email').value.trim();
-  if (!name||!uid||!order||!part||!model||!date){ showToast('Fill in all required fields.','err'); return; }
+  if (!name||!uid||!product||!part||!model||!date){ showToast('Fill in all required fields.','err'); return; }
   const purchaseDate = new Date(date);
   const expiryDate   = new Date(purchaseDate.getTime() + years*365.25*24*3600*1000);
   const btn = document.getElementById('add-btn');
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Saving…';
   try {
     await sbInsert('warranties', {
-      customer_name: name, customer_id: uid, order_id: order,
+      customer_name: name, customer_id: uid, product_id: product,
       part_type: part, model_name: model, email: email||null,
       purchase_date: purchaseDate.toISOString(), expiry_date: expiryDate.toISOString(),
       warranty_years: years
@@ -680,7 +680,7 @@ async function addWarranty() {
 }
 
 function clearForm(){
-  ['f-name','f-uid','f-order','f-model','f-email'].forEach(id=>document.getElementById(id).value='');
+  ['f-name','f-uid','f-product','f-model','f-email'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-part').value='';
   document.getElementById('f-years').value='1';
   document.getElementById('f-date').valueAsDate=new Date();
@@ -759,7 +759,7 @@ function renderCards(){
         </div>
         <div class="customer-name">${esc(w.customer_name)}</div>
         <div class="customer-uid">ID: ${esc(w.customer_id)}</div>
-        <div class="order-id-line">Order: ${esc(w.order_id)}${w.email?' · '+esc(w.email):''}</div>
+        <div class="product-id-line">Product: ${esc(w.product_id)}${w.email?' · '+esc(w.email):''}</div>
         <div class="part-name">${esc(w.model_name)}</div>
         <div class="timer-block">
           <div class="timer-label">${st==='expired'?'⛔ Warranty Expired':st==='warning'?'⚠️ Expiring Soon':'🟢 Time Remaining'}</div>
