@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>hyperbyte — Warranty Tracker</title>
+<title>WarrantyVault — PC Parts Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
 
 
@@ -117,12 +117,21 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 .cat-tab[data-cat="Motherboard"].active .badge{background:rgba(245,158,11,.2)}
 .cat-tab[data-cat="Others"].active{border-color:var(--muted);color:var(--text);background:rgba(97,120,152,.1)}
 
+
+/* ── Search bar ── */
+.search-wrap{position:relative;margin-bottom:.5rem}
+.search-wrap input{background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:var(--body);font-size:.88rem;padding:.6rem .9rem .6rem 2.2rem;outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+.search-wrap input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+.search-wrap input::placeholder{color:var(--muted)}
+.search-icon{position:absolute;left:.7rem;top:50%;transform:translateY(-50%);font-size:.85rem;pointer-events:none;opacity:.5}
+.search-clear{position:absolute;right:.7rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:.8rem;padding:.1rem .3rem;border-radius:4px;display:none}
+.search-clear:hover{color:var(--text)}
 .filter-tabs{display:flex;gap:.35rem}
 .filter-tab{background:var(--card);border:1px solid var(--border);border-radius:7px;color:var(--muted);cursor:pointer;font-size:.73rem;font-weight:500;padding:.33rem .75rem;transition:all .15s}
 .filter-tab.active,.filter-tab:hover{border-color:var(--blue);color:var(--blue);background:rgba(59,130,246,.08)}
 
 /* ══ WARRANTY CARDS ══ */
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem}
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .3s,box-shadow .3s;display:flex;flex-direction:column}
 .card::before{content:'';display:block;height:3px;background:linear-gradient(90deg,var(--blue),var(--teal))}
 .card.warning::before{background:linear-gradient(90deg,var(--amber),#FCD34D)}
@@ -291,8 +300,8 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 <div class="screen active" id="screen-gate">
   <div class="gate-wrap">
     <div class="gate-logo">
-      <img src="https://raw.githubusercontent.com/Mammoth007/warrantyvault/main/473176329_122100365006723615_244137078823968939_n.jpg" style="height:48px;width:auto;object-fit:contain;border-radius:10px" alt="HyperByte"/>
-      Hyper<span>Byte</span>
+      <div class="gate-logo-icon">🛡</div>
+      Warranty<span>Vault</span>
     </div>
     <div class="gate-tagline">PC Parts Global Warranty Tracking System</div>
     <div class="gate-cards">
@@ -313,10 +322,6 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 <!-- ════════ LOGIN ════════ -->
 <div class="screen" id="screen-login">
   <div class="login-box">
-    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem">
-      <img src="https://raw.githubusercontent.com/Mammoth007/warrantyvault/main/473176329_122100365006723615_244137078823968939_n.jpg" style="height:40px;width:auto;object-fit:contain;border-radius:8px" alt="HyperByte"/>
-      <span style="font-family:var(--sans);font-size:1.2rem;font-weight:700">Hyper<span style="color:var(--teal)">Byte</span></span>
-    </div>
     <h2>Admin Login</h2>
     <div class="sub">Credentials are required to access the dashboard.</div>
     <div class="field"><label>Username</label><input id="li-user" type="text" placeholder="admin" autocomplete="username"/></div>
@@ -341,12 +346,12 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 <!-- ════════ ADMIN DASHBOARD ════════ -->
 <div class="screen" id="screen-admin">
   <header class="admin-header">
-    <div class="header-left">
+    <div class="header-left" onclick="goTo('screen-gate')" style="cursor:pointer" title="Go to Home">
       <!-- COMPANY LOGO: replace src with your logo URL, or remove img tag to show text only -->
       <img id="company-logo-img" class="company-logo-img" src="" alt="" style="display:none" onerror="this.style.display='none'"/>
       <div class="logo-text">
-        <div class="logo-icon" style="display:none">🛡</div>
-        Hyper<span>Byte</span>
+        <div class="logo-icon">🛡</div>
+        Warranty<span>Vault</span>
         <span style="color:var(--muted);font-size:.65rem;font-weight:400;margin-left:.15rem">Admin</span>
       </div>
     </div>
@@ -401,9 +406,12 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
         <div class="field">
           <label>Warranty</label>
           <select id="f-years">
-            <option value="1">1 Year</option>
+            <option value="0.25">3 Months</option>
+            <option value="0.5">6 Months</option>
+            <option value="0.75">9 Months</option>
+            <option value="1" selected>1 Year</option>
             <option value="2">2 Years</option>
-            <option value="3" selected>3 Years</option>
+            <option value="3">3 Years</option>
             <option value="5">5 Years</option>
             <option value="10">10 Years</option>
           </select>
@@ -426,6 +434,11 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 
     <!-- MAIN -->
     <main class="main">
+      <div class="search-wrap" style="margin-bottom:1rem">
+        <span class="search-icon">🔍</span>
+        <input id="admin-search" type="text" placeholder="Search by name, customer ID, order ID, or product…" oninput="onSearch(this)"/>
+        <button class="search-clear" id="search-clear-btn" onclick="clearSearch()">✕</button>
+      </div>
       <div class="cat-tabs-wrap">
         <div class="cat-tabs" id="cat-tabs">
           <button class="cat-tab active" data-cat="All" onclick="setCat('All',this)">All <span class="badge" id="cnt-All">0</span></button>
@@ -456,7 +469,7 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
       <!-- customer logo -->
       <img id="cust-company-logo" class="cust-logo-img" src="" alt="" style="display:none" onerror="this.style.display='none'"/>
       <div class="cust-logo-icon" id="cust-default-icon">🛡</div>
-      Hyper<span>Byte</span>
+      Warranty<span>Vault</span>
     </div>
     <div class="cust-tagline">Check your PC parts warranty status</div>
   </div>
@@ -678,9 +691,31 @@ function fmtTime(ms) {
   return d>0?`${String(d).padStart(3,'0')}d ${p(h)}:${p(m)}:${p(sec)}`:`${p(h)}:${p(m)}:${p(sec)}`;
 }
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmtCoverage(years) {
+  if (years < 1) {
+    const m = Math.round(years * 12);
+    return m + ' Month' + (m > 1 ? 's' : '');
+  }
+  return years + ' Year' + (years > 1 ? 's' : '');
+}
 function catOf(w) {
   if (PART_CATS.includes(w.part_type)) return w.part_type;
   return 'Others';
+}
+
+
+/* ══ Search ══ */
+let searchQuery = '';
+function onSearch(input) {
+  searchQuery = input.value.trim().toLowerCase();
+  document.getElementById('search-clear-btn').style.display = searchQuery ? 'block' : 'none';
+  renderCards();
+}
+function clearSearch() {
+  document.getElementById('admin-search').value = '';
+  searchQuery = '';
+  document.getElementById('search-clear-btn').style.display = 'none';
+  renderCards();
 }
 
 /* ══ Load warranties ══ */
@@ -783,6 +818,13 @@ function renderCards(){
   let list=warranties;
   if(currentCat!=='All') list=list.filter(w=>catOf(w)===currentCat);
   if(currentFilter!=='all') list=list.filter(w=>statusOf(w)===currentFilter);
+  if(searchQuery) list=list.filter(w=>
+    w.customer_name.toLowerCase().includes(searchQuery)||
+    w.customer_id.toLowerCase().includes(searchQuery)||
+    w.order_id.toLowerCase().includes(searchQuery)||
+    w.model_name.toLowerCase().includes(searchQuery)||
+    w.part_type.toLowerCase().includes(searchQuery)
+  );
   list=[...list].sort((a,b)=>{
     const o={active:0,warning:1,expired:2};
     const sa=o[statusOf(a)],sb=o[statusOf(b)];
@@ -827,7 +869,7 @@ function renderCards(){
         <div class="progress-wrap"><div class="progress-bar ${st}" id="pb_${w.id}" style="width:${p}%"></div></div>
         <div class="card-footer">
           <div><span>Purchased</span><strong>${fmtDate(w.purchase_date)}</strong></div>
-          <div style="text-align:center"><span>Coverage</span><strong>${w.warranty_years} Yr${w.warranty_years>1?'s':''}</strong></div>
+          <div style="text-align:center"><span>Coverage</span><strong>${fmtCoverage(w.warranty_years)}</strong></div>
           <div style="text-align:right"><span>Status</span><strong style="color:var(--${st==='active'?'green':st==='warning'?'amber':'red'})">${st[0].toUpperCase()+st.slice(1)}</strong></div>
         </div>
         <div class="share-row">
@@ -982,7 +1024,7 @@ function buildCustCard(w){
       <div class="cust-pbar-wrap"><div class="cust-pbar ${st}" id="cpb_${w.id}" style="width:${p}%"></div></div>
       <div class="cust-meta">
         <div class="cust-meta-item"><div class="lbl">Purchase Date</div><div class="val">${fmtDate(w.purchase_date)}</div></div>
-        <div class="cust-meta-item"><div class="lbl">Coverage</div><div class="val">${w.warranty_years} Year${w.warranty_years>1?'s':''} Global</div></div>
+        <div class="cust-meta-item"><div class="lbl">Coverage</div><div class="val">${fmtCoverage(w.warranty_years)} Global</div></div>
         <div class="cust-meta-item"><div class="lbl">Status</div><div class="val" style="color:${stColor[st]}">${stLabel[st]}</div></div>
         <div class="cust-meta-item"><div class="lbl">Order ID</div><div class="val" style="font-family:var(--mono);font-size:.8rem">${esc(w.order_id)}</div></div>
       </div>
