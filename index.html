@@ -133,7 +133,7 @@ header.admin-header{display:flex;align-items:center;justify-content:space-betwee
 .btn-del:hover{color:var(--red);background:rgba(239,68,68,.1)}
 .customer-name{font-family:var(--sans);font-size:.88rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.08rem}
 .customer-uid{font-size:.65rem;color:var(--blue);font-family:var(--mono);margin-bottom:.05rem}
-.order-id-line{font-size:.65rem;color:var(--muted);margin-bottom:.05rem}
+.product-id-line{font-size:.65rem;color:var(--muted);margin-bottom:.05rem}
 .part-name{font-size:.75rem;color:var(--teal);font-weight:500;margin-bottom:.5rem}
 .card.expired .part-name{color:var(--muted)}
 .timer-block{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.5rem .7rem;margin-bottom:.5rem;text-align:center}
@@ -899,7 +899,7 @@ function buildCustCard(w){
       <div>
         <div class="cust-part-badge ${st}">${esc(w.part_type)}</div>
         <div class="cust-name">${esc(w.customer_name)}</div>
-        <div class="cust-order-line">Order: ${esc(w.order_id)}</div>
+        <div class="cust-order-line">Product ID: ${esc(w.product_id)}</div>
       </div>
       <div class="cust-dot ${st}"></div>
     </div>
@@ -913,7 +913,7 @@ function buildCustCard(w){
         <div class="cust-meta-item"><div class="lbl">Purchase Date</div><div class="val">${fmtDate(w.purchase_date)}</div></div>
         <div class="cust-meta-item"><div class="lbl">Coverage</div><div class="val">${fmtCoverage(w.warranty_years)} Global</div></div>
         <div class="cust-meta-item"><div class="lbl">Status</div><div class="val" style="color:${stColor[st]}">${stLabel[st]}</div></div>
-        <div class="cust-meta-item"><div class="lbl">Product ID</div><div class="val" style="font-family:var(--mono);font-size:.8rem">${esc(w.order_id)}</div></div>
+        <div class="cust-meta-item"><div class="lbl">Product ID</div><div class="val" style="font-family:var(--mono);font-size:.8rem">${esc(w.product_id)}</div></div>
       </div>
     </div>
   </div>`;
